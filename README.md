@@ -65,3 +65,34 @@ We would love to see you contribute to RudderStack. Get more information on how 
 [config-generator]: https://github.com/rudderlabs/config-generator
 [config-generator-section]: https://github.com/rudderlabs/rudder-server/blob/master/README.md#rudderstack-config-generator
 [rudder-logo]: https://repository-images.githubusercontent.com/197743848/b352c900-dbc8-11e9-9d45-4deb9274101f
+=======
+# Rudder-Amplitude
+
+[![CI Status](https://img.shields.io/travis/Arnab/Rudder-Amplitude.svg?style=flat)](https://travis-ci.org/Arnab/Rudder-Amplitude)
+[![Version](https://img.shields.io/cocoapods/v/Rudder-Amplitude.svg?style=flat)](https://cocoapods.org/pods/Rudder-Amplitude)
+[![License](https://img.shields.io/cocoapods/l/Rudder-Amplitude.svg?style=flat)](https://cocoapods.org/pods/Rudder-Amplitude)
+[![Platform](https://img.shields.io/cocoapods/p/Rudder-Amplitude.svg?style=flat)](https://cocoapods.org/pods/Rudder-Amplitude)
+
+## Example
+
+To run the example project, clone the repo, and run `pod install` from the Example directory first.
+
+## Requirements
+
+## Installation
+
+Rudder-Amplitude is available through [CocoaPods](https://cocoapods.org). To install
+it, simply add the following line to your Podfile:
+
+```ruby
+pod 'Rudder-Amplitude'
+```
+
+## Author
+
+Arnab, arnab.compsc@gmail.com
+
+## License
+
+Rudder-Amplitude is available under the MIT license. See the LICENSE file for more info.
+>>>>>>> Minimal Project
