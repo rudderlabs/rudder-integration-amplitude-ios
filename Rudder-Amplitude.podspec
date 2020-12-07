@@ -31,6 +31,8 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '8.0'
 
   s.source_files = 'Rudder-Amplitude/Classes/**/*'
+  s.dependency 'Rudder'
+  s.dependency 'Amplitude'
   
   # s.resource_bundles = {
   #   'Rudder-Amplitude' => ['Rudder-Amplitude/Assets/*.png']
