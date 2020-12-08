@@ -21,7 +21,7 @@
     
     RSConfigBuilder *configBuilder = [[RSConfigBuilder alloc] init];
     [configBuilder withDataPlaneUrl:DATA_PLANE_URL];
-    [configBuilder withControlPlaneUrl:@"https://afec5af4ff10.ngrok.io"];
+    [configBuilder withControlPlaneUrl:@"https://94576606aa80.ngrok.io"];
     [configBuilder withLoglevel:RSLogLevelDebug];
     [configBuilder withFactory:[RudderAmplitudeFactory instance]];
     [RSClient getInstance:WRITE_KEY config:[configBuilder build]];
@@ -34,32 +34,48 @@
     [rewardsArray addObject:[NSNumber numberWithInt:7]];
     [rewardsArray addObject:[NSNumber numberWithInt:8]];
     
-    [[RSClient sharedInstance] identify:@"hithendra"
-                                 traits:@{@"firstName": @"Manchana",
-                                          @"LastName": @"Hithendra"
-//                                          @"email": @"hithu@gmail.com",
-//                                          @"friends":[NSNumber numberWithInt:40],
-//                                          @"city":@"hyderabad",
-//                                          @"awards":awardsArray,
-//                                          @"rewards":rewardsArray
+    [[RSClient sharedInstance] identify:@"JamesBond"
+                                 traits:@{@"firstName": @"James",
+                                          @"LastName": @"Bond",
+                                          @"email": @"Bond@james.com",
+                                          @"friends":[NSNumber numberWithInt:10],
+                                          @"city":@"CA",
+                                          @"awards":[NSNumber numberWithInt:1],
+                                          @"rewards":@"11"
                                  }];
     // screen call
-//    [[RSClient sharedInstance] screen:@"AMB Cinemas"  properties:@{@"prop_key" : @"prop_value",@"category":@"Maari"}];
+    [[RSClient sharedInstance] screen:@"The Cinema"  properties:@{@"prop_key" : @"prop_value",@"category":@"TENET"}];
     // Track Call
-       [[RSClient sharedInstance] track:@"simple_track_event"];
-        [[RSClient sharedInstance] track:@"simple_track_with_props" properties:@{
-            @"key_1" : @"value_1",
-            @"key_2" : @"value_2"
-        }];
-        //Group Call
-        // same problem as in android
-        [[RSClient sharedInstance] group:@"sample_group_id"
-                                  traits:@{@"foo": @"bar",
-                                           @"foo1": @"bar1",
-                                           @"email": @"test@gmail.com"}
-         ];
+    [[RSClient sharedInstance] track:@"simple_track_event"];
+    [[RSClient sharedInstance] track:@"simple_track_with_props" properties:@{
+        @"key_1" : @"value_1",
+        @"key_2" : @"value_2"
+    }];
+    [[RSClient sharedInstance] track:@"Order Done" properties:@{
+        @"revenue" : @100,
+        @"orderId" : @"ooo1111111",
+        @"products" : @[
+                @{
+                    @"productId" : @"12##89",
+                    @"price" : @12,
+                    @"quantity" : @1
+                },
+                @{
+                    @"productId" : @"8900",
+                    @"price" : @21,
+                    @"quantity" : @3
+                }
+        ]
+    }];
+    //Group Call
+    // same problem as in android
+    [[RSClient sharedInstance] group:@"sample_group_id"
+                              traits:@{@"foo": @"bar",
+                                       @"foo1": @"bar1",
+                                       @"email": @"test@gmail.com"}
+     ];
     //    //Reset Call
-    //    [[RSClient sharedInstance] reset];
+    [[RSClient sharedInstance] reset];
     return YES;
 }
 

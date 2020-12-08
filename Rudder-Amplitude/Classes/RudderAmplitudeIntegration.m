@@ -20,12 +20,16 @@
         [RSLogger logDebug:@"Initializing Amplitude SDK"];
         dispatch_async(dispatch_get_main_queue(), ^{
             //take values from config
-            NSString *apiKey = [config objectForKey:@"apiKey"];
+            self.apiKey = [config objectForKey:@"apiKey"];
             
             // page settings
-            self.trackAllPages = [config objectForKey:@"trackAllPages"];
-            self.trackNamedPages = [config objectForKey:@"trackNamedPages"];
-            self.trackCategorizedPages = [config objectForKey:@"trackCategorizedPages"];
+            self.trackAllPages = [[config objectForKey:@"trackAllPages"] boolValue];
+            self.trackNamedPages = [[config objectForKey:@"trackNamedPages"] boolValue];
+            self.trackCategorizedPages = [[config objectForKey:@"trackCategorizedPages"] boolValue];
+            
+            //track settings
+            self.trackProductsOnce = [[config objectForKey:@"trackProductsOnce"] boolValue];
+            self.trackRevenuePerProduct = [[config objectForKey:@"trackRevenuePerProduct"] boolValue];
             
             // traits settings
             self.traitsToIncrement = [[self getNSMutableSet:[config objectForKey:@"traitsToIncrement"]] copy];
@@ -37,15 +41,43 @@
             self.groupTypeTrait = [config objectForKey:@"groupTypeTrait"];
             self.groupValueTrait = [config objectForKey:@"groupValueTrait"];
             
+            
+            
+            // track session events
+            if(self.trackSessionEvents)
+            {
+                [Amplitude instance].trackingSessionEvents = YES;
+            }
+            
+            // batching configuration
+            if(self.eventUploadPeriodMillis)
+            {
+                [Amplitude instance].eventUploadPeriodSeconds = self.eventUploadPeriodMillis/1000;//[NSNumber numberWithInt:1000];
+            }
+            
+            if(self.eventUploadThreshold)
+            {
+                [Amplitude instance].eventUploadThreshold = self.eventUploadThreshold;
+            }
+            
+            // location listening
+            //            if(self.enableLocationListening)
+            //            {
+            //                [[Amplitude instance] enableLocationListening];
+            //            }
+            //            else{
+            //                [[Amplitude instance] disableLocationListening];
+            //            }
+            
+            // using Advertising Id for Device Id
+            if(self.useAdvertisingIdForDeviceId)
+            {
+                [[Amplitude instance] useAdvertisingIdForDeviceId];
+            }
+            
             // Initialize SDK
-            [Amplitude instance].trackingSessionEvents = YES;
-            [[Amplitude instance] initializeApiKey:apiKey];
+            [[Amplitude instance] initializeApiKey:self.apiKey];
             
-            
-            [[Amplitude instance] setGroup:@"Desu" groupName:@"Sai"];
-            AMPIdentify *groupIdentify = [AMPIdentify identify];
-            [groupIdentify set:@"library" value:@"RudderStack"];
-            [[Amplitude instance] groupIdentifyWithGroupType:@"Desu" groupName:@"Sai" groupIdentify:groupIdentify];
         });
     }
     return self;
@@ -70,28 +102,53 @@
         // identify
         NSString *userId = message.userId;
         NSDictionary *traits = message.context.traits;
+        BOOL optOutOfSession = FALSE;
+        optOutOfSession = [traits objectForKey:@"optOutOfSession"];
         if(userId!=nil && userId.length!=0)
         {
             [[Amplitude instance] setUserId:userId];
         }
         if(self.traitsToIncrement!=nil || self.traitsToSetOnce!=nil || self.traitsToAppend!=nil || self.traitsToPrepend!=nil)
         {
-            [self handleTraits:traits];
+            [self handleTraits:traits withOptOutOfSession:optOutOfSession];
             return;
         }
         [[Amplitude instance] setUserProperties:traits];
+        AMPIdentify *identify = [AMPIdentify identify];
+        [[Amplitude instance] identify:identify outOfSession:optOutOfSession];
     } else if ([type isEqualToString:@"track"]) {
         // track call
         NSString *event = message.event;
-        NSDictionary *properties = message.properties;
         if(event)
         {
-            if(properties)
+            NSDictionary *properties = message.properties;
+            NSMutableDictionary *propertiesDictionary = [properties mutableCopy];
+            NSArray *products = [propertiesDictionary objectForKey:@"products"];
+            
+            if(self.trackProductsOnce)
             {
-                [[Amplitude instance] logEvent:event withEventProperties:properties withGroups:nil outOfSession:FALSE];
+                if(products)
+                {
+                    NSArray *simplifiedProducts = [self simplifyProducts:products];
+                    propertiesDictionary[@"products"]=simplifiedProducts;
+                    [self logEventAndCorrespondingRevenue:propertiesDictionary withEventName:event withDoNotTrackRevenue:self.trackRevenuePerProduct];
+                    if(self.trackRevenuePerProduct)
+                    {
+                        [self trackingEventAndRevenuePerProduct:propertiesDictionary withProductsArray:products withTrackEventPerProduct:FALSE];
+                    }
+                    return;
+                }
+                [self logEventAndCorrespondingRevenue:propertiesDictionary withEventName:event withDoNotTrackRevenue:FALSE];
                 return;
             }
-            [[Amplitude instance] logEvent:event withEventProperties:nil withGroups:nil outOfSession:FALSE];
+            if(products)
+            {
+                [propertiesDictionary removeObjectForKey:@"products"];
+                [self logEventAndCorrespondingRevenue:propertiesDictionary withEventName:event withDoNotTrackRevenue:self.trackRevenuePerProduct];
+                [self trackingEventAndRevenuePerProduct:propertiesDictionary withProductsArray:products withTrackEventPerProduct:TRUE];
+                return;
+            }
+            [self logEventAndCorrespondingRevenue:propertiesDictionary withEventName:event withDoNotTrackRevenue:FALSE];
         }
         
     } else if ([type isEqualToString:@"screen"]) {
@@ -115,7 +172,7 @@
             [[Amplitude instance] logEvent:[NSString stringWithFormat:@"Viewed %@ Screen",[properties objectForKey:@"category"]] withEventProperties:properties withGroups:nil outOfSession:FALSE];
         }
     } else if ([type isEqualToString:@"group"]) {
-        NSString *groupType ;
+        NSString *groupType;
         NSString *groupName = message.userId;
         NSDictionary *groupTraits = message.context.traits;
         if(groupTraits && [self getDictionarySize:groupTraits]!=0)
@@ -158,7 +215,7 @@
 
 #pragma mark - Utils
 
--(void) handleTraits:(NSDictionary*) traits {
+-(void) handleTraits:(NSDictionary*) traits withOptOutOfSession:(BOOL) optOutOfSession {
     AMPIdentify *identify = [AMPIdentify identify];
     for(id key in traits)
     {
@@ -188,7 +245,7 @@
         }
         [identify set:key value:[traits objectForKey:key]];
     }
-    [[Amplitude instance] identify:identify];
+    [[Amplitude instance] identify:identify outOfSession:optOutOfSession];
 }
 
 - (NSMutableSet*) getNSMutableSet: (NSArray*) array {
@@ -208,6 +265,107 @@
         totalSize += malloc_size((__bridge const void *)obj);
     }
     return [NSNumber numberWithInt:totalSize];
+}
+
+- (NSArray*) simplifyProducts: (NSArray*) products {
+    
+    NSMutableArray* simplifiedProducts = [[NSMutableArray alloc]init];
+    for(NSDictionary *product in products)
+    {
+        NSMutableDictionary* simplifiedProduct = [[NSMutableDictionary alloc] init];
+        simplifiedProduct[@"productId"] = product[@"productId"]?:product[@"product_id"];
+        simplifiedProduct[@"sku"] = product[@"sku"];
+        simplifiedProduct[@"category"] = product[@"category"];
+        simplifiedProduct[@"name"] = product[@"name"];
+        simplifiedProduct[@"price"] = product[@"price"];
+        simplifiedProduct[@"quantity"] = product[@"quantity"];
+        [simplifiedProducts addObject:simplifiedProduct];
+    }
+    return simplifiedProducts;
+}
+
+// revenue methods
+
+- (void) logEventAndCorrespondingRevenue: (NSMutableDictionary*) eventProperties withEventName: (NSString*) eventName withDoNotTrackRevenue: (BOOL) doNotTrackRevenue {
+    
+    if(!eventProperties)
+    {
+        [[Amplitude instance] logEvent:eventName];
+        return;
+    }
+    BOOL optOutOfSession = [eventProperties objectForKey:@"optOutOfSession"];
+    [[Amplitude instance] logEvent:eventName withEventProperties:eventProperties withGroups:nil outOfSession:optOutOfSession];
+    if([eventProperties objectForKey:@"revenue"] && !doNotTrackRevenue)
+    {
+        [self trackRevenue:eventProperties withEventName:eventName];
+    }
+    
+}
+
+- (void) trackingEventAndRevenuePerProduct: (NSMutableDictionary*) eventProperties withProductsArray: (NSArray*) products withTrackEventPerProduct: (BOOL) trackEventPerProduct {
+    NSString *revenueType = eventProperties[@"revenueType"]?:eventProperties[@"revenue_type"]?:nil;
+    for(NSMutableDictionary *product in products)
+    {
+        if(self.trackRevenuePerProduct)
+        {
+            if(revenueType)
+            {
+                product[@"revenueType"]=revenueType;
+            }
+            [self trackRevenue:product withEventName:@"Product Purchased"];
+        }
+        if(trackEventPerProduct)
+        {
+            [self logEventAndCorrespondingRevenue:product withEventName:@"Product Purchased" withDoNotTrackRevenue:TRUE];
+        }
+    }
+}
+
+- (void) trackRevenue: (NSMutableDictionary*) eventProperties withEventName: (NSString*) eventName {
+    
+    NSDictionary *mapRevenueType = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                    @"Purchase",@"order completed",
+                                    @"Purchase", @"completed order",
+                                    @"Purchase",@"product purchased",
+                                    nil
+                                    ];
+    
+    NSNumber *quantity = eventProperties[@"quantity"];
+    NSNumber *revenue = eventProperties[@"revenue"];
+    NSNumber *price = eventProperties[@"price"];
+    NSString *productId = eventProperties[@"productId"]?:eventProperties[@"product_id"]?:nil;
+    NSString *revenueType = eventProperties[@"revenueType"]?:eventProperties[@"revenue_type"]?:mapRevenueType[[eventName lowercaseString]];
+    id receipt = eventProperties[@"receipt"];
+    if(!revenue && !price )
+    {
+        [RSLogger logDebug:@"revenue or price is not present."];
+        return;
+    }
+    if(price == 0)
+    {
+        price = revenue;
+        quantity = [NSNumber numberWithInt:1];
+    }
+    if(quantity == 0)
+    {
+        quantity = [NSNumber numberWithInt:1];
+    }
+    AMPRevenue *ampRevenue = [AMPRevenue revenue];
+    [[[ampRevenue setPrice:price]setQuantity:[quantity integerValue]]setEventProperties:eventProperties];
+    if(revenueType)
+    {
+        [ampRevenue setRevenueType:revenueType];
+    }
+    if(productId)
+    {
+        [ampRevenue setProductIdentifier:productId];
+    }
+    if(receipt)
+    {
+        [ampRevenue setReceipt:receipt];
+    }
+    [[Amplitude instance] logRevenueV2:ampRevenue];
+    
 }
 
 @end
