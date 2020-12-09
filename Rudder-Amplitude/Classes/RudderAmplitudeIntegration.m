@@ -42,6 +42,13 @@
             self.groupValueTrait = [config objectForKey:@"groupValueTrait"];
             
             
+            // config settings
+            self.trackSessionEvents = [[config objectForKey:@"trackSessionEvents"] boolValue];
+            self.eventUploadPeriodMillis = [[config objectForKey:@"eventUploadPeriodMillis"] intValue];
+            self.eventUploadThreshold = [[config objectForKey:@"eventUploadThreshold"] intValue];
+            self.enableLocationListening = [[config objectForKey:@"enableLocationListening"] boolValue];
+            self.useIdfaAsDeviceId = [[config objectForKey:@"useIdfaAsDeviceId"] boolValue];
+            
             
             // track session events
             if(self.trackSessionEvents)
@@ -70,7 +77,7 @@
             //            }
             
             // using Advertising Id for Device Id
-            if(self.useAdvertisingIdForDeviceId)
+            if(self.useIdfaAsDeviceId)
             {
                 [[Amplitude instance] useAdvertisingIdForDeviceId];
             }

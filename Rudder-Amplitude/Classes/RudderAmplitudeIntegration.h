@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) BOOL sendEvents;
 @property (nonatomic) BOOL enableLocationListening;
-@property (nonatomic) BOOL useAdvertisingIdForDeviceId;
+@property (nonatomic) BOOL useIdfaAsDeviceId;
 @property (nonatomic) BOOL trackSessionEvents;
 
 @property (nonatomic) BOOL trackAllPages;
