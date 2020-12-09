@@ -190,9 +190,9 @@
                 groupName = [groupTraits objectForKey:self.groupValueTrait];
             }
         }
-        if(!groupName)
+        if(!groupType)
         {
-            groupName = @"[RudderStack] Group";
+            groupType = @"[RudderStack] Group";
         }
         
         // setting group
