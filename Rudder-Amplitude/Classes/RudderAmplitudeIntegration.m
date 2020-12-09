@@ -335,7 +335,11 @@
     NSNumber *price = eventProperties[@"price"];
     NSString *productId = eventProperties[@"productId"]?:eventProperties[@"product_id"]?:nil;
     NSString *revenueType = eventProperties[@"revenueType"]?:eventProperties[@"revenue_type"]?:mapRevenueType[[eventName lowercaseString]];
-    id receipt = eventProperties[@"receipt"];
+    NSData * receipt;
+    if(eventProperties[@"receipt"])
+    {
+        receipt = [NSKeyedArchiver archivedDataWithRootObject:eventProperties[@"receipt"]];
+    }
     if(!revenue && !price )
     {
         [RSLogger logDebug:@"revenue or price is not present."];
