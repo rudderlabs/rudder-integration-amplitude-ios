@@ -35,7 +35,7 @@
 //      };
 //    Optional : Uncomment this to send IDFA as device ID to Amplitude
 //      [Amplitude instance].adSupportBlock = ^{
-//        return [[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+//        return [[ASIdentifierManager sharedManager] advertisingIdentifier];
 //      };
     
     // identify call

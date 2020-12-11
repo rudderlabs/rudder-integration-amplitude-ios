@@ -1,98 +1,57 @@
-<p align="center"><a href="https://rudderstack.com"><img src="https://raw.githubusercontent.com/rudderlabs/rudder-server/master/resources/RudderStack.png" alt="RudderStack - An Open Source Customer Data Platform" height="90"/></a></p>
-<h1 align="center"></h1>
-<p align="center"><b>The warehouse-first customer data platform built for devs</b></p>
-<br/>
+# What is Rudder?
 
-# \*\* Repo Name \*\*
+**Short answer:**
+Rudder is an open-source Segment alternative written in Go, built for the enterprise. .
 
-\*\* Repo description \*\*
-|:------|
+**Long answer:**
+Rudder is a platform for collecting, storing and routing customer event data to dozens of tools. Rudder is open-source, can run in your cloud environment (AWS, GCP, Azure or even your data-centre) and provides a powerful transformation framework to process your event data on the fly.
 
-Questions? Please join our [Slack channel](https://resources.rudderstack.com/join-rudderstack-slack) or read about us on [Product Hunt](https://www.producthunt.com/posts/rudderstack).
+Released under [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)
 
-# Why Use \*\* Software Name \*\*
+## Getting Started with Amplitude Integration of iOS SDK
+1. Add [Amplitude](https://amplitude.com) as a destination in the [Dashboard](https://app.rudderstack.com/) and define all the fields.
 
-\*\* Describe what software does. \*\*
 
-# Key Features
-
-\*\* Describe key features, if necessary. \*\*
-
-# Get Started
-
-\*\* Describe how to use the software. \*\*
-
-# License
-
-RudderStack \*\* software name \*\* is released under the [AGPLv3 License][agplv3_license].
-
-# Contribute
-
-We would love to see you contribute to RudderStack. Get more information on how to contribute [here](CONTRIBUTING.md).
-
-# Follow Us
-
-- [RudderStack Blog][rudderstack-blog]
-- [Slack][slack]
-- [Twitter][twitter]
-- [LinkedIn][linkedin]
-- [dev.to][devto]
-- [Medium][medium]
-- [YouTube][youtube]
-- [HackerNews][hackernews]
-- [Product Hunt][producthunt]
-
-# \*\* Optional \*\* :clap:  Our Supporters
-
-\*\* Update the repo names below. \*\*<br />
-
-[![Stargazers repo roster for @rudderlabs/rudder-server](https://reporoster.com/stars/rudderlabs/rudder-repo-template)](https://github.com/rudderlabs/rudder-repo-template/stargazers)
-[![Forkers repo roster for @rudderlabs/rudder-server](https://reporoster.com/forks/rudderlabs/rudder-repo-template)](https://github.com/rudderlabs/rudder-repo-template/network/members)
-
-<!----variables---->
-
-[slack]: https://resources.rudderstack.com/join-rudderstack-slack
-[twitter]: https://twitter.com/rudderstack
-[linkedin]: https://www.linkedin.com/company/rudderlabs/
-[devto]: https://dev.to/rudderstack
-[medium]: https://rudderstack.medium.com/
-[youtube]: https://www.youtube.com/channel/UCgV-B77bV_-LOmKYHw8jvBw
-[rudderstack-blog]: https://rudderstack.com/blog/
-[hackernews]: https://news.ycombinator.com/item?id=21081756
-[producthunt]: https://www.producthunt.com/posts/rudderstack
-[agplv3_license]: https://www.gnu.org/licenses/agpl-3.0-standalone.html
-[sspl_license]: https://www.mongodb.com/licensing/server-side-public-license
-[config-generator]: https://github.com/rudderlabs/config-generator
-[config-generator-section]: https://github.com/rudderlabs/rudder-server/blob/master/README.md#rudderstack-config-generator
-[rudder-logo]: https://repository-images.githubusercontent.com/197743848/b352c900-dbc8-11e9-9d45-4deb9274101f
-=======
-# Rudder-Amplitude
-
-[![CI Status](https://img.shields.io/travis/Arnab/Rudder-Amplitude.svg?style=flat)](https://travis-ci.org/Arnab/Rudder-Amplitude)
-[![Version](https://img.shields.io/cocoapods/v/Rudder-Amplitude.svg?style=flat)](https://cocoapods.org/pods/Rudder-Amplitude)
-[![License](https://img.shields.io/cocoapods/l/Rudder-Amplitude.svg?style=flat)](https://cocoapods.org/pods/Rudder-Amplitude)
-[![Platform](https://img.shields.io/cocoapods/p/Rudder-Amplitude.svg?style=flat)](https://cocoapods.org/pods/Rudder-Amplitude)
-
-## Example
-
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-## Requirements
-
-## Installation
-
-Rudder-Amplitude is available through [CocoaPods](https://cocoapods.org). To install
+3. Rudder-Amplitude is available through [CocoaPods](https://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
 pod 'Rudder-Amplitude'
 ```
 
-## Author
+## Initialize ```RudderClient```
+Put this code in your ```AppDelegate.m``` file under the method ```didFinishLaunchingWithOptions```
+```
+RSConfigBuilder *builder = [[RSConfigBuilder alloc] init];
+[builder withDataPlaneUrl:<YOUR_DATA_PLANE_URL>];
+[builder withFactory:[RudderAmplitudeFactory instance]];
+[RSClient getInstance:<YOUR_WRITE_KEY> config:[builder build]];
+```
 
-Arnab, arnab.compsc@gmail.com
+Add the below logic just after initalizing ```RudderClient``` in ```AppDelegate.m``` if you would like to send ```IDFA``` of ```iOS device``` as device id to Amplitude
 
-## License
+```
+[Amplitude instance].adSupportBlock = ^{
+return [[ASIdentifierManager sharedManager] advertisingIdentifier];
+};
 
-Rudder-Amplitude is available under the MIT license. See the LICENSE file for more info.
->>>>>>> Minimal Project
+```
+
+and then add the below logic if you would like to ```track location``` (latitude, longitude)
+
+```
+
+[Amplitude instance].locationInfoBlock = ^{
+        return @{
+                  @"lat" : @37.7,
+                  @"lng" : @122.4
+                };
+      };
+
+```
+
+## Send Events
+Follow the steps from [Rudder iOS SDK](https://github.com/rudderlabs/rudder-sdk-ios)
+
+## Contact Us
+If you come across any issues while configuring or using RudderStack, please feel free to [contact us](https://rudderstack.com/contact/) or start a conversation on our [Discord](https://discordapp.com/invite/xNEdEGw) channel. We will be happy to help you.
