@@ -67,15 +67,6 @@
                 [Amplitude instance].eventUploadThreshold = self.eventUploadThreshold;
             }
             
-            // location listening
-            //            if(self.enableLocationListening)
-            //            {
-            //                [[Amplitude instance] enableLocationListening];
-            //            }
-            //            else{
-            //                [[Amplitude instance] disableLocationListening];
-            //            }
-            
             // using Advertising Id for Device Id
             if(self.useIdfaAsDeviceId)
             {
@@ -115,14 +106,7 @@
         {
             [[Amplitude instance] setUserId:userId];
         }
-        if(self.traitsToIncrement!=nil || self.traitsToSetOnce!=nil || self.traitsToAppend!=nil || self.traitsToPrepend!=nil)
-        {
-            [self handleTraits:traits withOptOutOfSession:optOutOfSession];
-            return;
-        }
-        [[Amplitude instance] setUserProperties:traits];
-        AMPIdentify *identify = [AMPIdentify identify];
-        [[Amplitude instance] identify:identify outOfSession:optOutOfSession];
+        [self handleTraits:traits withOptOutOfSession:optOutOfSession];
     } else if ([type isEqualToString:@"track"]) {
         // track call
         NSString *event = message.event;
@@ -180,8 +164,8 @@
         }
     } else if ([type isEqualToString:@"group"]) {
         NSString *groupType;
-        NSString *groupName = message.userId;
-        NSDictionary *groupTraits = message.context.traits;
+        NSString *groupName = message.groupId;
+        NSDictionary *groupTraits = message.traits;
         if(groupTraits && [self getDictionarySize:groupTraits]!=0)
         {
             if([groupTraits objectForKey:self.groupTypeTrait] && [groupTraits objectForKey:self.groupValueTrait])

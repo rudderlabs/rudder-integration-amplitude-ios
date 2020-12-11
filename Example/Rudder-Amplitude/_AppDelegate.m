@@ -21,10 +21,22 @@
     
     RSConfigBuilder *configBuilder = [[RSConfigBuilder alloc] init];
     [configBuilder withDataPlaneUrl:DATA_PLANE_URL];
-    [configBuilder withControlPlaneUrl:@"https://94576606aa80.ngrok.io"];
+    [configBuilder withControlPlaneUrl:@"https://80a1384095dc.ngrok.io"];
     [configBuilder withLoglevel:RSLogLevelDebug];
     [configBuilder withFactory:[RudderAmplitudeFactory instance]];
     [RSClient getInstance:WRITE_KEY config:[configBuilder build]];
+    
+//    Optional : Uncomment this to enable Tracking Location
+//    [Amplitude instance].locationInfoBlock = ^{
+//        return @{
+//                  @"lat" : @37.7,
+//                  @"lng" : @122.4
+//                };
+//      };
+//    Optional : Uncomment this to send IDFA as device ID to Amplitude
+//      [Amplitude instance].adSupportBlock = ^{
+//        return [[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+//      };
     
     // identify call
     NSMutableArray *awardsArray = [NSMutableArray array];
@@ -69,10 +81,9 @@
     }];
     //Group Call
     // same problem as in android
-    [[RSClient sharedInstance] group:@"sample_group_id"
-                              traits:@{@"foo": @"bar",
-                                       @"foo1": @"bar1",
-                                       @"email": @"test@gmail.com"}
+    [[RSClient sharedInstance] group:@"group_id"
+                              traits:@{@"company_id": @"RS",
+                                       @"company_name": @"RudderStack"}
      ];
     //    //Reset Call
     [[RSClient sharedInstance] reset];
