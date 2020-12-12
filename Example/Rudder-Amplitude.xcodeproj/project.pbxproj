@@ -37,7 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0D15844FB4573A389D3C8484 /* Rudder-Amplitude.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = "Rudder-Amplitude.podspec"; path = "../Rudder-Amplitude.podspec"; sourceTree = "<group>"; };
+		0D15844FB4573A389D3C8484 /* Rudder-Amplitude.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = "Rudder-Amplitude.podspec"; path = "../Rudder-Amplitude.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		37F90D74850D7A1BA71C2B1F /* Pods-Rudder-Amplitude_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rudder-Amplitude_Example.debug.xcconfig"; path = "Target Support Files/Pods-Rudder-Amplitude_Example/Pods-Rudder-Amplitude_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* Rudder-Amplitude_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rudder-Amplitude_Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -65,8 +65,8 @@
 		B6447766280A8BCD69ED3792 /* Pods-Rudder-Amplitude_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rudder-Amplitude_Tests.debug.xcconfig"; path = "Target Support Files/Pods-Rudder-Amplitude_Tests/Pods-Rudder-Amplitude_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		BA57A50738F8433B4DABA479 /* Pods_Rudder_Amplitude_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rudder_Amplitude_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBAD90758EE58F36EAC5762B /* Pods-Rudder-Amplitude_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rudder-Amplitude_Tests.release.xcconfig"; path = "Target Support Files/Pods-Rudder-Amplitude_Tests/Pods-Rudder-Amplitude_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		DA75E53C72D405432BDD6CB9 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		FB03380213C55CCC23328F03 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		DA75E53C72D405432BDD6CB9 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		FB03380213C55CCC23328F03 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,7 +103,6 @@
 				B6447766280A8BCD69ED3792 /* Pods-Rudder-Amplitude_Tests.debug.xcconfig */,
 				CBAD90758EE58F36EAC5762B /* Pods-Rudder-Amplitude_Tests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -259,6 +258,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -325,10 +325,14 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Rudder-Amplitude_Example/Pods-Rudder-Amplitude_Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Amplitude/Amplitude.framework",
+				"${BUILT_PRODUCTS_DIR}/Rudder/Rudder.framework",
 				"${BUILT_PRODUCTS_DIR}/Rudder-Amplitude/Rudder_Amplitude.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Amplitude.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rudder.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rudder_Amplitude.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
