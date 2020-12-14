@@ -1,44 +1,21 @@
-#
-# Be sure to run `pod lib lint Rudder-Amplitude.podspec' to ensure this is a
-# valid spec before submitting.
-#
-# Any lines starting with a # are optional, but their use is encouraged
-# To learn more about a Podspec see https://guides.cocoapods.org/syntax/podspec.html
-#
-
 Pod::Spec.new do |s|
   s.name             = 'Rudder-Amplitude'
-  s.version          = '0.1.0'
-  s.summary          = 'A short description of Rudder-Amplitude.'
-
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
+  s.version          = '1.0.0'
+  s.summary          = 'Privacy and Security focused Segment-alternative. Firebase Native SDK integration support.'
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+  Rudder is a platform for collecting, storing and routing customer event data to dozens of tools. Rudder is open-source, can run in your cloud environment (AWS, GCP, Azure or even your data-centre) and provides a powerful transformation framework to process your event data on the fly.
                        DESC
-
-  s.homepage         = 'https://github.com/Arnab/Rudder-Amplitude'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
-  s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'Arnab' => 'arnab.compsc@gmail.com' }
-  s.source           = { :git => 'https://github.com/Arnab/Rudder-Amplitude.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+  s.homepage         = 'https://github.com/rudderlabs/rudder-integration-amplitude-ios'
+  s.license          = { :type => "Apache", :file => "LICENSE" }
+  s.author           = { 'RudderStack' => 'arnab@rudderstack.com' }
+  s.source           = { :git => 'https://github.com/rudderlabs/rudder-integration-amplitude-ios.git' , :tag => 'v1.0.0'}
+  s.platform         = :ios, "9.0"
+  s.requires_arc = true
 
   s.ios.deployment_target = '8.0'
 
   s.source_files = 'Rudder-Amplitude/Classes/**/*'
   s.dependency 'Rudder'
   s.dependency 'Amplitude'
-  
-  # s.resource_bundles = {
-  #   'Rudder-Amplitude' => ['Rudder-Amplitude/Assets/*.png']
-  # }
-
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
 end

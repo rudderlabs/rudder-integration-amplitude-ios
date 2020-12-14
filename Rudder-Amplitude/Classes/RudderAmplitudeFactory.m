@@ -11,7 +11,8 @@
 @implementation RudderAmplitudeFactory
 static RudderAmplitudeFactory *sharedInstance;
 
-+ (instancetype)instance {
++ (instancetype)instance
+{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[self alloc] init];
@@ -19,13 +20,17 @@ static RudderAmplitudeFactory *sharedInstance;
     return sharedInstance;
 }
 
-- (nonnull NSString *)key {
+- (nonnull NSString *)key
+{
     return @"Amplitude";
 }
 
 
-- (id<RSIntegration>)initiate:(NSDictionary *)config client:(RSClient *)client rudderConfig:(nonnull RSConfig *)rudderConfig {
+- (id<RSIntegration>)initiate:(NSDictionary *)config client:(RSClient *)client rudderConfig:(nonnull RSConfig *)rudderConfig
+{
     [RSLogger logDebug:@"Creating RudderIntegrationFactory: Amplitude"];
-    return [[RudderAmplitudeIntegration alloc] initWithConfig:config withAnalytics:client withRudderConfig:rudderConfig];
+    return [[RudderAmplitudeIntegration alloc] initWithConfig:config
+                                                withAnalytics:client
+                                             withRudderConfig:rudderConfig];
 }
 @end
