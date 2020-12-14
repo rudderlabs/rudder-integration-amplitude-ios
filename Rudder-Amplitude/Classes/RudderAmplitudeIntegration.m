@@ -162,7 +162,8 @@
         {
             [[Amplitude instance] logEvent:[NSString stringWithFormat:@"Viewed %@ Screen",[properties objectForKey:@"category"]] withEventProperties:properties withGroups:nil outOfSession:FALSE];
         }
-    } else if ([type isEqualToString:@"group"]) {
+    }
+//    else if ([type isEqualToString:@"group"]) {
 //        NSString *groupType;
 //        NSString *groupName = message.groupId;
 //        NSDictionary *groupTraits = message.traits;
@@ -190,7 +191,8 @@
 //            [groupIdentify set:@"group_properties" value:groupTraits];
 //        }
 //        [[Amplitude instance] groupIdentifyWithGroupType:groupType groupName:groupName groupIdentify:groupIdentify];
-    } else {
+//    }
+    else {
         [RSLogger logDebug:@"Amplitude Integration: Message Type not supported"];
     }
 }
