@@ -7,6 +7,9 @@
 //
 
 #import "_ViewController.h"
+#import <Rudder/Rudder.h>
+#import "RudderAmplitudeFactory.h"
+#import <Amplitude/Amplitude.h>
 
 @interface _ViewController ()
 
@@ -25,5 +28,18 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (IBAction)callReset:(id)sender {
+    
+    [[RSClient sharedInstance] reset];
+}
+
+- (IBAction)callTrack:(id)sender {
+    
+    [[RSClient sharedInstance] track:@"simple_track_with_props" properties:@{
+        @"key_1" : @"value_1",
+        @"key_2" : @"value_2"
+    }];
+}
+
 
 @end
