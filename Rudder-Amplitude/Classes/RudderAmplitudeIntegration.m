@@ -163,33 +163,33 @@
             [[Amplitude instance] logEvent:[NSString stringWithFormat:@"Viewed %@ Screen",[properties objectForKey:@"category"]] withEventProperties:properties withGroups:nil outOfSession:FALSE];
         }
     } else if ([type isEqualToString:@"group"]) {
-        NSString *groupType;
-        NSString *groupName = message.groupId;
-        NSDictionary *groupTraits = message.traits;
-        if(groupTraits && [self getDictionarySize:groupTraits]!=0)
-        {
-            if([groupTraits objectForKey:self.groupTypeTrait] && [groupTraits objectForKey:self.groupValueTrait])
-            {
-                groupType = [groupTraits objectForKey:self.groupTypeTrait];
-                groupName = [groupTraits objectForKey:self.groupValueTrait];
-            }
-        }
-        if(!groupType)
-        {
-            groupType = @"[RudderStack] Group";
-        }
-        
-        // setting group
-        [[Amplitude instance] setGroup:groupType groupName:groupName];
-        
-        // Set group properties
-        AMPIdentify *groupIdentify = [AMPIdentify identify];
-        [groupIdentify set:@"library" value:@"RudderStack"];
-        if(groupTraits && [self getDictionarySize:groupTraits]!=0)
-        {
-            [groupIdentify set:@"group_properties" value:groupTraits];
-        }
-        [[Amplitude instance] groupIdentifyWithGroupType:groupType groupName:groupName groupIdentify:groupIdentify];
+//        NSString *groupType;
+//        NSString *groupName = message.groupId;
+//        NSDictionary *groupTraits = message.traits;
+//        if(groupTraits && [self getDictionarySize:groupTraits]!=0)
+//        {
+//            if([groupTraits objectForKey:self.groupTypeTrait] && [groupTraits objectForKey:self.groupValueTrait])
+//            {
+//                groupType = [groupTraits objectForKey:self.groupTypeTrait];
+//                groupName = [groupTraits objectForKey:self.groupValueTrait];
+//            }
+//        }
+//        if(!groupType)
+//        {
+//            groupType = @"[RudderStack] Group";
+//        }
+//
+//        // setting group
+//        [[Amplitude instance] setGroup:groupType groupName:groupName];
+//
+//        // Set group properties
+//        AMPIdentify *groupIdentify = [AMPIdentify identify];
+//        [groupIdentify set:@"library" value:@"RudderStack"];
+//        if(groupTraits && [self getDictionarySize:groupTraits]!=0)
+//        {
+//            [groupIdentify set:@"group_properties" value:groupTraits];
+//        }
+//        [[Amplitude instance] groupIdentifyWithGroupType:groupType groupName:groupName groupIdentify:groupIdentify];
     } else {
         [RSLogger logDebug:@"Amplitude Integration: Message Type not supported"];
     }
