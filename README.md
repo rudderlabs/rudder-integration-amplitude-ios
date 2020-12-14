@@ -20,38 +20,33 @@ pod 'Rudder-Amplitude'
 ```
 
 ## Initialize ```RudderClient```
-Put this code in your ```AppDelegate.m``` file under the method ```didFinishLaunchingWithOptions```
-```
+Put this code in your `AppDelegate.m` file under the method `didFinishLaunchingWithOptions`
+```XCode
 RSConfigBuilder *builder = [[RSConfigBuilder alloc] init];
-[builder withDataPlaneUrl:<YOUR_DATA_PLANE_URL>];
+[builder withDataPlaneUrl:DATA_PLANE_URL];
 [builder withFactory:[RudderAmplitudeFactory instance]];
-[RSClient getInstance:<YOUR_WRITE_KEY> config:[builder build]];
+[RSClient getInstance:WRITE_KEY config:[builder build]];
 ```
 
 Add the below logic just after initalizing ```RudderClient``` in ```AppDelegate.m``` if you would like to send ```IDFA``` of ```iOS device``` as device id to Amplitude
-
-```
+```XCode
 [Amplitude instance].adSupportBlock = ^{
 return [[ASIdentifierManager sharedManager] advertisingIdentifier];
 };
-
 ```
 
 and then add the below logic if you would like to ```track location``` (latitude, longitude)
-
-```
-
+```XCode
 [Amplitude instance].locationInfoBlock = ^{
         return @{
                   @"lat" : @37.7,
                   @"lng" : @122.4
                 };
-      };
-
+};
 ```
 
 ## Send Events
 Follow the steps from [Rudder iOS SDK](https://github.com/rudderlabs/rudder-sdk-ios)
 
 ## Contact Us
-If you come across any issues while configuring or using RudderStack, please feel free to [contact us](https://rudderstack.com/contact/) or start a conversation on our [Discord](https://discordapp.com/invite/xNEdEGw) channel. We will be happy to help you.
+If you come across any issues while configuring or using RudderStack, please feel free to [contact us](https://rudderstack.com/contact/) or start a conversation on our [Slack](https://resources.rudderstack.com/join-rudderstack-slack) channel. We will be happy to help you.
