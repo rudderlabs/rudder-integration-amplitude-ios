@@ -384,17 +384,17 @@
                                     ];
     
     NSNumber *quantity;
-    if(eventProperties[@"quantity"]&& [(NSString*)eventProperties[@"quantity"] length] !=0)
+    if(eventProperties[@"quantity"]&& [[NSString stringWithFormat:@"%@",eventProperties[@"quantity"]] length] !=0)
     {
     quantity = eventProperties[@"quantity"];
     }
     NSNumber *revenue;
-    if(eventProperties[@"revenue"]&& [(NSString*)eventProperties[@"revenue"] length] !=0)
+    if(eventProperties[@"revenue"]&& [[NSString stringWithFormat:@"%@",eventProperties[@"revenue"]] length] !=0)
     {
         revenue = eventProperties[@"revenue"];
     }
     NSNumber *price;
-    if(eventProperties[@"price"]&& [(NSString*)eventProperties[@"price"] length] !=0)
+    if(eventProperties[@"price"]&& [[NSString stringWithFormat:@"%@",eventProperties[@"price"]] length] !=0)
     {
         price = eventProperties[@"price"];
     }
