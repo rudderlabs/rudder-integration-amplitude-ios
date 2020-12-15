@@ -105,7 +105,7 @@
         // identify
         NSString *userId     = message.userId;
         NSDictionary *traits = message.context.traits;
-        BOOL optOutOfSession = [[NSNumber alloc] initWithBool:[traits objectForKey:@"optOutOfSession"]];
+        BOOL optOutOfSession = [traits objectForKey:@"optOutOfSession"];
         if(userId != nil && userId.length != 0)
         {
             [[Amplitude instance] setUserId:userId];
@@ -339,7 +339,7 @@
         [[Amplitude instance] logEvent:eventName];
         return;
     }
-    BOOL optOutOfSession = [[NSNumber alloc] initWithBool:[eventProperties objectForKey:@"optOutOfSession"]];
+    BOOL optOutOfSession = [eventProperties objectForKey:@"optOutOfSession"];
     [[Amplitude instance] logEvent:eventName
                withEventProperties:eventProperties
                         withGroups:nil
@@ -383,9 +383,21 @@
                                     nil
                                     ];
     
-    NSNumber *quantity = eventProperties[@"quantity"];
-    NSNumber *revenue = eventProperties[@"revenue"];
-    NSNumber *price = eventProperties[@"price"];
+    NSNumber *quantity;
+    if(eventProperties[@"quantity"]&& [(NSString*)eventProperties[@"quantity"] length] !=0)
+    {
+    quantity = eventProperties[@"quantity"];
+    }
+    NSNumber *revenue;
+    if(eventProperties[@"revenue"]&& [(NSString*)eventProperties[@"revenue"] length] !=0)
+    {
+        revenue = eventProperties[@"revenue"];
+    }
+    NSNumber *price;
+    if(eventProperties[@"price"]&& [(NSString*)eventProperties[@"price"] length] !=0)
+    {
+        price = eventProperties[@"price"];
+    }
     NSString *productId = eventProperties[@"productId"]
                           ?:eventProperties[@"product_id"]?:nil;
     NSString *revenueType = eventProperties[@"revenueType"]
@@ -412,11 +424,11 @@
     }
     AMPRevenue *ampRevenue = [AMPRevenue revenue];
     [[[ampRevenue setPrice:price] setQuantity:[quantity integerValue]] setEventProperties:eventProperties];
-    if(revenueType)
+    if(revenueType && [revenueType length]!=0)
     {
         [ampRevenue setRevenueType:revenueType];
     }
-    if(productId)
+    if(productId && [productId length]!=0)
     {
         [ampRevenue setProductIdentifier:productId];
     }
