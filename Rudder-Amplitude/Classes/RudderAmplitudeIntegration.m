@@ -385,22 +385,25 @@
     
     NSNumber *quantity;
     if(eventProperties[@"quantity"] &&
-       [[NSString stringWithFormat:@"%@",eventProperties[@"quantity"]] length] !=0)
+       [[NSString stringWithFormat:@"%@", eventProperties[@"quantity"]] length] != 0)
     {
-    quantity = eventProperties[@"quantity"];
+        quantity = eventProperties[@"quantity"];
     }
+    
     NSNumber *revenue;
     if(eventProperties[@"revenue"] &&
-       [[NSString stringWithFormat:@"%@",eventProperties[@"revenue"]] length] !=0)
+       [[NSString stringWithFormat:@"%@", eventProperties[@"revenue"]] length] != 0)
     {
         revenue = eventProperties[@"revenue"];
     }
+    
     NSNumber *price;
     if(eventProperties[@"price"] &&
-       [[NSString stringWithFormat:@"%@",eventProperties[@"price"]] length] !=0)
+       [[NSString stringWithFormat:@"%@", eventProperties[@"price"]] length] != 0)
     {
         price = eventProperties[@"price"];
     }
+    
     NSString *productId = eventProperties[@"productId"]
                           ?:eventProperties[@"product_id"]?:nil;
     NSString *revenueType = eventProperties[@"revenueType"]
