@@ -7,6 +7,9 @@
 //
 
 @import UIKit;
+#import <Rudder/Rudder.h>
+#import "RudderAmplitudeFactory.h"
+#import <Amplitude/Amplitude.h>
 
 @interface _ViewController : UIViewController
 
