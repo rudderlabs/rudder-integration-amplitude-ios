@@ -1,47 +1,36 @@
-# Contributing to RudderStack #
+# Contributing to RudderStack
 
-Thanks for taking the time and for your help improving this project!
+Thanks for taking the time and for your help in improving this project!
 
-## Getting Help ##
+## Table of contents
 
-If you have a question about rudder or have encountered problems using it,
-start by asking a question on [Slack][slack].
+- [**RudderStack Contributor Agreement**](#rudderstack-contributor-agreement)
+- [**How you can contribute to RudderStack**](#how-you-can-contribute-to-rudderstack)
+- [**Committing**](#committing)
+- [**Getting help**](#getting-help)
 
-## Rudder Labs Contributor Agreement ##
+## RudderStack Contributor Agreement
 
-To contribute to this project, we need you to sign to [Contributor License Agreement (“CLA”)][CLA] for the first commit you make. By agreeing to the [CLA][CLA]
-we can add you to list of approved contributors and review the changes proposed by you.
+To contribute to this project, we need you to sign the [**Contributor License Agreement (“CLA”)**][CLA] for the first commit you make. By agreeing to the [**CLA**][CLA], we can add you to list of approved contributors and review the changes proposed by you.
 
-## Installing and Setting Up \*\* Software Name \*\*
+## How you can contribute to RudderStack
 
-\*\* Describe, in detail, how to setup and start using the software. \*\*
+If you come across any issues or bugs, or have any suggestions for improvement, you can navigate to the specific file in the [**repo**](https://github.com/rudderlabs/rudder-repo-template), make the change, and raise a PR.
 
-## Submitting a Pull Request ##
+You can also contribute to any open-source RudderStack project. View our [**GitHub page**](https://github.com/rudderlabs) to see all the different projects.
 
-Do you have an improvement?
+## Committing
 
-1. Submit an [issue][issue] describing your proposed change.
-2. We will try to respond to your issue promptly.
-3. Fork this repo, develop and test your code changes. See the project's [README](README.md) for further information about working in this repository.
-4. Submit a pull request against this repo's `main` branch.
-    - Include instructions on how to test your changes.
-5. Your branch may be merged once all configured checks pass, including:
-    - A review from appropriate maintainers
+We prefer squash or rebase commits so that all changes from a branch are committed to master as a single commit. All pull requests are squashed when merged, but rebasing prior to merge gives you better control over the commit message.
 
-## Committing ##
+## Getting help
 
-We prefer squash or rebase commits so that all changes from a branch are
-committed to master as a single commit. All pull requests are squashed when
-merged, but rebasing prior to merge gives you better control over the commit
-message.
+For any questions, concerns, or queries, you can start by asking a question in our [**Slack**](https://rudderstack.com/join-rudderstack-slack-community/) community.
 
-We look forward to your feedback on improving this project.
+### We look forward to your feedback on improving this project!
 
 
-<!----variable's---->
+<!----variables---->
 
-\*\* Update variable links. \*\*
-
-[slack]: https://resources.rudderstack.com/join-rudderstack-slack
-[issue]: https://github.com/rudderlabs/rudder-repo-template/issues/new
+[issue]: https://github.com/rudderlabs/rudder-server/issues/new
 [CLA]: https://rudderlabs.wufoo.com/forms/rudderlabs-contributor-license-agreement
