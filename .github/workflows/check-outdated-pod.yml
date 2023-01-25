@@ -25,7 +25,8 @@ jobs:
         if: steps.outdated.outputs.has_any_outdated != 'false'
         run: |
           echo "Successfull"
-          echo steps.outdated.outputs
+          echo "${{ steps.outdated.outputs.outdated_pod_info }}"
+
         # run: |
         #   hub issue create -m "Found outdated dependencies." -m "${{ steps.outdated.outputs.outdated_pod_info }}"
         # env:
