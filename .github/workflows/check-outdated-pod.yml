@@ -27,6 +27,7 @@ jobs:
         run: |
           echo "Successfull"
           echo "${{ steps.outdated.outputs.outdated_pod_info }}"
+          echo "{{ steps.outdated.outputs.has_any_outdated.Amplitude }}"
 
         # run: |
         #   hub issue create -m "Found outdated dependencies." -m "${{ steps.outdated.outputs.outdated_pod_info }}"
