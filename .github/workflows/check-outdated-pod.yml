@@ -21,11 +21,12 @@ jobs:
         with:
           project_directory: Example
           podspec: Rudder-Amplitude.podspec
-      - name: Notify in slack if there are outdated pod
+          exclude_pods: Rudder
+      - name: Notify in slack if there is an outdated Amplitude pod
         if: steps.outdated.outputs.has_any_outdated.Amplitude != 'false'
         run: |
           echo "Successfull"
-          echo "${{ steps.outdated.outputs.outdated_pod_info.Amplitude }}"
+          echo "${{ steps.outdated.outputs.outdated_pod_info }}"
 
         # run: |
         #   hub issue create -m "Found outdated dependencies." -m "${{ steps.outdated.outputs.outdated_pod_info }}"
