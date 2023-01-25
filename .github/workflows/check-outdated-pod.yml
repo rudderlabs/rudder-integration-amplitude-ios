@@ -13,7 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Install pods
-        run: pod install
+        run: |
+          cd example
+          pod install
       - uses: yatatsu/pod-outdated-check-action@v0.3.0
         id: outdated
         with:
