@@ -1,0 +1,25 @@
+name: Check Outdated Pods
+
+# on: push
+on:
+  pull_request:
+    branches: ["master"]
+    types: ["opened", "reopened", "edited", "synchronize"]
+
+jobs:
+  npm:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: yatatsu/pod-outdated-check-action@v0.3.0
+        id: outdated
+        with:
+          project_directory: example
+          podspec: Rudder-Amplitude.podspec
+      - name: Create Issue
+        if: steps.outdated.outputs.has_any_outdated != 'false'
+        echo "Successfull"
+        # run: |
+        #   hub issue create -m "Found outdated dependencies." -m "${{ steps.outdated.outputs.outdated_pod_info }}"
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
