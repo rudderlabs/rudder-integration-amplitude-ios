@@ -11,7 +11,7 @@ jobs:
   outdatedPods:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - name: Install pods
         run: |
           cd example
@@ -19,8 +19,9 @@ jobs:
       - uses: yatatsu/pod-outdated-check-action@v0.3.0
         id: outdated
         with:
+          project_directory: ./
           podspec: Rudder-Amplitude.podspec
-      - name: Create Issue
+      - name: Notify in slack if there are outdated pod
         if: steps.outdated.outputs.has_any_outdated != 'false'
         run: |
           echo "Successfull"
