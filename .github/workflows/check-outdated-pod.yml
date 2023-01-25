@@ -28,10 +28,3 @@ jobs:
         run: |
           echo "Successfull"
           echo "${{ steps.outdated.outputs.outdated_pod_info }}"
-      - name: Notify in slack if there is an outdated Amplitude pod
-        run: echo "${{ steps.outdated.outputs }}"
-
-        # run: |
-        #   hub issue create -m "Found outdated dependencies." -m "${{ steps.outdated.outputs.outdated_pod_info }}"
-        # env:
-        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
