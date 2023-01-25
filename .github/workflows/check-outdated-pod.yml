@@ -28,3 +28,5 @@ jobs:
         run: |
           echo "Successfull"
           echo "${{ steps.outdated.outputs.outdated_pod_info }}"
+      - name: Notify in slack if there is an outdated Amplitude pod
+        run: echo "${{ steps.outdated.outputs }}"
