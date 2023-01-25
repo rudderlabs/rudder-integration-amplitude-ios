@@ -1,4 +1,4 @@
-name: Check Outdated Pods
+name: Check Outdated Pod
 
 # on: push
 on:
@@ -18,7 +18,7 @@ jobs:
           podspec: Rudder-Amplitude.podspec
       - name: Create Issue
         if: steps.outdated.outputs.has_any_outdated != 'false'
-        echo "Successfull"
+          echo "Successfull"
         # run: |
         #   hub issue create -m "Found outdated dependencies." -m "${{ steps.outdated.outputs.outdated_pod_info }}"
         # env:
