@@ -8,10 +8,12 @@ on:
 # on: workflow_dispatch
 
 jobs:
-  npm:
+  outdatedPods:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v1
+      - name: Install pods
+        run: pod install
       - uses: yatatsu/pod-outdated-check-action@v0.3.0
         id: outdated
         with:
