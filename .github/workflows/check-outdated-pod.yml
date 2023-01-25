@@ -19,7 +19,7 @@ jobs:
       - uses: yatatsu/pod-outdated-check-action@v0.3.0
         id: outdated
         with:
-          project_directory: ./
+          project_directory: Example
           podspec: Rudder-Amplitude.podspec
       - name: Notify in slack if there are outdated pod
         if: steps.outdated.outputs.has_any_outdated != 'false'
