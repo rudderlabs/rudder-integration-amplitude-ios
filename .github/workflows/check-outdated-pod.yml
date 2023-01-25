@@ -21,6 +21,7 @@ jobs:
         with:
           project_directory: Example
           podspec: Rudder-Amplitude.podspec
+          exclude_pods: Rudder
       - name: Notify in slack if there are outdated pod
         if: steps.outdated.outputs.has_any_outdated != 'false'
         run: |
