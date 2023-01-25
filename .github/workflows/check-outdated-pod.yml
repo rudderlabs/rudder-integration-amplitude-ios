@@ -15,6 +15,7 @@ jobs:
       - name: Install pods
         run: |
           cd example
+          rm podfile.lock
           pod install
       - uses: yatatsu/pod-outdated-check-action@v0.3.0
         id: outdated
