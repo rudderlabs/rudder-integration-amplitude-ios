@@ -19,7 +19,6 @@ jobs:
       - uses: yatatsu/pod-outdated-check-action@v0.3.0
         id: outdated
         with:
-          project_directory: example
           podspec: Rudder-Amplitude.podspec
       - name: Create Issue
         if: steps.outdated.outputs.has_any_outdated != 'false'
