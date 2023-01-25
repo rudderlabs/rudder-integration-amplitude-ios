@@ -21,5 +21,5 @@ Pod::Spec.new do |s|
 
   s.source_files = 'Rudder-Amplitude/Classes/**/*'
   s.dependency 'Rudder'
-  s.dependency 'Amplitude', '~> 7.2.0'
+  s.dependency 'Amplitude', '~> 8.14.0'
 end
