@@ -14,7 +14,7 @@ jobs:
 
       - name: Check outdated pods and create issue
         id: check-outdated-pods-and-create-issue
-        uses: rudderlabs/rudder-manage-github-issue-for-outdated-pods@main
+        uses: rudderlabs/github-action-updated-pods-notifier@main
         with:
           outdated-pod-names: "Amplitude"
           directory: "Example"
