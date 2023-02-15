@@ -23,7 +23,7 @@ jobs:
           labels: "outdatedPod"
           color: "FBCA04"
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get the github issue url
         if: steps.check-outdated-pods-and-create-issue.outputs.issue-url != ''
