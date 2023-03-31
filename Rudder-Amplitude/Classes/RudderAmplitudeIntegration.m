@@ -9,95 +9,88 @@
 #import <Rudder/Rudder.h>
 #import <malloc/malloc.h>
 
+@implementation AmplitudeConfig
+@end
+
+@implementation AmplitudeIngestionMetadata
+
+@end
+
+@implementation AmplitudePlan
+@end
 
 @implementation RudderAmplitudeIntegration
 
 #pragma mark - Initialization
 
-- (instancetype) initWithConfig:(NSDictionary *)config withAnalytics:(nonnull RSClient *)client  withRudderConfig:(nonnull RSConfig *)rudderConfig
-{
+- (instancetype) initWithConfig:(NSDictionary *)config withAnalytics:(nonnull RSClient *)client  withRudderConfig:(nonnull RSConfig *)rudderConfig {
     
     self = [super init];
-    if (self)
-    {
+    if (self) {
         // do initialization here
         [RSLogger logDebug:@"Initializing Amplitude SDK"];
         dispatch_async(dispatch_get_main_queue(), ^{
-            amplitudeConfig = [self createAMPConfigurationFromDestConfig:config];
+            self->amplitudeConfig = [self createAMPConfigurationFromDestConfig:config];
             
             // track session events
-            if(amplitudeConfig.trackSessionEvents)
-            {
+            if(self->amplitudeConfig.trackSessionEvents) {
                 [Amplitude instance].trackingSessionEvents = YES;
             }
             
             // batching configuration
-            if(amplitudeConfig.eventUploadPeriodMillis)
-            {
-                [Amplitude instance].eventUploadPeriodSeconds = amplitudeConfig.eventUploadPeriodMillis/1000;
+            if(self->amplitudeConfig.eventUploadPeriodMillis) {
+                [Amplitude instance].eventUploadPeriodSeconds = self->amplitudeConfig.eventUploadPeriodMillis/1000;
             }
             
-            if(amplitudeConfig.eventUploadThreshold)
-            {
-                [Amplitude instance].eventUploadThreshold = amplitudeConfig.eventUploadThreshold;
+            if(self->amplitudeConfig.eventUploadThreshold) {
+                [Amplitude instance].eventUploadThreshold = self->amplitudeConfig.eventUploadThreshold;
             }
             
             // using Advertising Id for Device Id
-            if(amplitudeConfig.useIdfaAsDeviceId)
-            {
+            if(self->amplitudeConfig.useIdfaAsDeviceId) {
                 [[Amplitude instance] useAdvertisingIdForDeviceId];
             }
             
             // Initialize SDK
-            [[Amplitude instance] initializeApiKey:amplitudeConfig.apiKey];
+            [[Amplitude instance] initializeApiKey:self->amplitudeConfig.apiKey];
         });
     }
     return self;
 }
 
-- (void) dump:(RSMessage *)message
-{
-    @try
-    {
-        if (message != nil)
-        {
+- (void) dump:(RSMessage *)message {
+    @try {
+        if (message != nil) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self processRudderEvent:message];
             });
         }
     }
-    @catch (NSException *ex)
-    {
+    @catch (NSException *ex) {
         [RSLogger logError:[[NSString alloc] initWithFormat:@"%@", ex]];
     }
 }
 
-- (void) processRudderEvent: (nonnull RSMessage *) message
-{
+- (void) processRudderEvent: (nonnull RSMessage *) message {
     NSString *type = message.type;
-    if ([type isEqualToString:@"identify"])
-    {
+    if ([type isEqualToString:@"identify"]) {
         // identify
         NSString *userId     = message.userId;
         NSDictionary *traits = message.context.traits;
         BOOL optOutOfSession = [traits objectForKey:@"optOutOfSession"];
-        if(userId != nil && userId.length != 0)
-        {
+        if(userId != nil && userId.length != 0) {
             [[Amplitude instance] setUserId:userId];
         }
         [self handleTraits:traits withOptOutOfSession:optOutOfSession];
     }
-    else if ([type isEqualToString:@"track"])
-    {
+    else if ([type isEqualToString:@"track"]) {
         // track call
         NSString *event = message.event;
-        if(event)
-        {
+        if(event) {
             NSMutableDictionary *propertiesDictionary = [message.properties mutableCopy];
             NSArray *products                         = [propertiesDictionary objectForKey:@"products"];
             
-            if(amplitudeConfig.trackProductsOnce)
-            {
+            if(amplitudeConfig.trackProductsOnce) {
                 if(products)
                 {
                     NSArray *simplifiedProducts       = [self simplifyProducts:products];
@@ -119,8 +112,7 @@
                                 withDoNotTrackRevenue:FALSE];
                 return;
             }
-            if(products)
-            {
+            if(products) {
                 [propertiesDictionary removeObjectForKey:@"products"];
                 [self logEventAndCorrespondingRevenue:propertiesDictionary
                                         withEventName:event
@@ -135,21 +127,17 @@
                             withDoNotTrackRevenue:FALSE];
         }
     }
-    else if ([type isEqualToString:@"screen"])
-    {
+    else if ([type isEqualToString:@"screen"]) {
         NSDictionary *properties = message.properties;
-        if(amplitudeConfig.trackAllPages)
-        {
+        if(amplitudeConfig.trackAllPages) {
             if([properties objectForKey:@"name"] &&
-               [[properties objectForKey:@"name"] length] != 0 )
-            {
+               [[properties objectForKey:@"name"] length] != 0 ) {
                 [[Amplitude instance] logEvent:[NSString stringWithFormat:@"Viewed %@ Screen",
                                                 [properties objectForKey:@"name"]]
                            withEventProperties:properties withGroups:nil
                                   outOfSession:FALSE];
             }
-            else
-            {
+            else {
                 [[Amplitude instance] logEvent:@"Loaded a Screen"
                            withEventProperties:properties
                                     withGroups:nil
@@ -159,8 +147,7 @@
         
         if(amplitudeConfig.trackNamedPages &&
            [properties objectForKey:@"name"] &&
-           [[properties objectForKey:@"name"] length] != 0)
-        {
+           [[properties objectForKey:@"name"] length] != 0) {
             [[Amplitude instance] logEvent:[NSString stringWithFormat:@"Viewed %@ Screen",
                                             [properties objectForKey:@"name"]]
                        withEventProperties:properties
@@ -170,8 +157,7 @@
         
         if(amplitudeConfig.trackCategorizedPages &&
            [properties objectForKey:@"category"] &&
-           [[properties objectForKey:@"category"] length] != 0)
-        {
+           [[properties objectForKey:@"category"] length] != 0) {
             [[Amplitude instance] logEvent:[NSString stringWithFormat:@"Viewed %@ Screen",
                                             [properties objectForKey:@"category"]]
                        withEventProperties:properties
@@ -208,53 +194,44 @@
 //        }
 //        [[Amplitude instance] groupIdentifyWithGroupType:groupType groupName:groupName groupIdentify:groupIdentify];
 //    }
-    else
-    {
+    else {
         [RSLogger logDebug:@"Amplitude Integration: Message Type not supported"];
     }
 }
 
-- (void)reset
-{
+- (void)reset {
     [[Amplitude instance] setUserId:nil]; // not string nil
     [[Amplitude instance] regenerateDeviceId];
 }
 
-- (void)flush
-{
+- (void)flush {
     [[Amplitude instance] uploadEvents];
 }
 
 #pragma mark - Utils
 
--(void) handleTraits:(NSDictionary*) traits withOptOutOfSession:(BOOL) optOutOfSession
-{
+-(void) handleTraits:(NSDictionary*) traits withOptOutOfSession:(BOOL) optOutOfSession {
     AMPIdentify *identify = [AMPIdentify identify];
-    for(id key in traits)
-    {
-        if([amplitudeConfig.traitsToIncrement containsObject:key])
-        {
+    for(id key in traits) {
+        if([amplitudeConfig.traitsToIncrement containsObject:key]) {
             [identify add:key value:[traits objectForKey:key]];
             // need to check if amplitude native sdk supports
             // more than one operation on the same key in a identify call
             continue;
         }
-        if([amplitudeConfig.traitsToSetOnce containsObject:key])
-        {
+        if([amplitudeConfig.traitsToSetOnce containsObject:key]) {
             [identify setOnce:key value:[traits objectForKey:key]];
             // need to check if amplitude native sdk supports
             // more than one operation on the same key in a identify call
             continue;
         }
-        if([amplitudeConfig.traitsToAppend containsObject:key])
-        {
+        if([amplitudeConfig.traitsToAppend containsObject:key]) {
             [identify append:key value:[traits objectForKey:key]];
             // need to check if amplitude native sdk supports
             // more than one operation on the same key in a identify call
             continue;
         }
-        if([amplitudeConfig.traitsToPrepend containsObject:key])
-        {
+        if([amplitudeConfig.traitsToPrepend containsObject:key]) {
             [identify prepend:key value:[traits objectForKey:key]];
             // need to check if amplitude native sdk supports
             // more than one operation on the same key in a identify call
@@ -267,23 +244,19 @@
 
 
 
-- (NSNumber*) getDictionarySize: (NSDictionary*) groupTraits
-{
+- (NSNumber*) getDictionarySize: (NSDictionary*) groupTraits {
     NSArray *keysArray = [groupTraits allValues];
     int totalSize = 0;
-    for(id obj in keysArray)
-    {
+    for(id obj in keysArray) {
         totalSize += malloc_size((__bridge const void *)obj);
     }
     return [NSNumber numberWithInt:totalSize];
 }
 
-- (NSArray*) simplifyProducts: (NSArray*) products
-{
+- (NSArray*) simplifyProducts: (NSArray*) products {
     
     NSMutableArray* simplifiedProducts = [[NSMutableArray alloc]init];
-    for(NSDictionary *product in products)
-    {
+    for(NSDictionary *product in products) {
         NSMutableDictionary* simplifiedProduct = [[NSMutableDictionary alloc] init];
         simplifiedProduct[@"productId"] = product[@"productId"]?:product[@"product_id"];
         simplifiedProduct[@"sku"] = product[@"sku"];
@@ -298,11 +271,9 @@
 
 // revenue methods
 
-- (void) logEventAndCorrespondingRevenue: (NSMutableDictionary*) eventProperties withEventName: (NSString*) eventName withDoNotTrackRevenue: (BOOL) doNotTrackRevenue
-{
+- (void) logEventAndCorrespondingRevenue: (NSMutableDictionary*) eventProperties withEventName: (NSString*) eventName withDoNotTrackRevenue: (BOOL) doNotTrackRevenue {
     
-    if(!eventProperties)
-    {
+    if(!eventProperties) {
         [[Amplitude instance] logEvent:eventName];
         return;
     }
@@ -312,8 +283,7 @@
                         withGroups:nil
                       outOfSession:optOutOfSession];
     
-    if([eventProperties objectForKey:@"revenue"] && !doNotTrackRevenue)
-    {
+    if([eventProperties objectForKey:@"revenue"] && !doNotTrackRevenue) {
         [self trackRevenue:eventProperties withEventName:eventName];
     }
 }
@@ -322,18 +292,14 @@
     NSString *revenueType = eventProperties[@"revenueType"]
                             ?:eventProperties[@"revenue_type"]
                             ?:nil;
-    for(NSMutableDictionary *product in products)
-    {
-        if(amplitudeConfig.trackRevenuePerProduct)
-        {
-            if(revenueType)
-            {
+    for(NSMutableDictionary *product in products) {
+        if(amplitudeConfig.trackRevenuePerProduct) {
+            if(revenueType) {
                 product[@"revenueType"]=revenueType;
             }
             [self trackRevenue:product withEventName:@"Product Purchased"];
         }
-        if(trackEventPerProduct)
-        {
+        if(trackEventPerProduct) {
             [self logEventAndCorrespondingRevenue:product
                                     withEventName:@"Product Purchased"
                             withDoNotTrackRevenue:TRUE];
@@ -352,22 +318,19 @@
     
     NSNumber *quantity;
     if(eventProperties[@"quantity"] &&
-       [[NSString stringWithFormat:@"%@", eventProperties[@"quantity"]] length] != 0)
-    {
+       [[NSString stringWithFormat:@"%@", eventProperties[@"quantity"]] length] != 0) {
         quantity = eventProperties[@"quantity"];
     }
     
     NSNumber *revenue;
     if(eventProperties[@"revenue"] &&
-       [[NSString stringWithFormat:@"%@", eventProperties[@"revenue"]] length] != 0)
-    {
+       [[NSString stringWithFormat:@"%@", eventProperties[@"revenue"]] length] != 0) {
         revenue = eventProperties[@"revenue"];
     }
     
     NSNumber *price;
     if(eventProperties[@"price"] &&
-       [[NSString stringWithFormat:@"%@", eventProperties[@"price"]] length] != 0)
-    {
+       [[NSString stringWithFormat:@"%@", eventProperties[@"price"]] length] != 0) {
         price = eventProperties[@"price"];
     }
     
@@ -377,36 +340,29 @@
                             ?:eventProperties[@"revenue_type"]
                             ?:mapRevenueType[[eventName lowercaseString]];
     NSData * receipt;
-    if(eventProperties[@"receipt"])
-    {
+    if(eventProperties[@"receipt"]) {
         receipt = [NSKeyedArchiver archivedDataWithRootObject:eventProperties[@"receipt"]];
     }
-    if(!revenue && !price )
-    {
+    if(!revenue && !price ) {
         [RSLogger logDebug:@"revenue or price is not present."];
         return;
     }
-    if(price == 0)
-    {
+    if(price == 0) {
         price = revenue;
         quantity = [NSNumber numberWithInt:1];
     }
-    if(quantity == 0)
-    {
+    if(quantity == 0) {
         quantity = [NSNumber numberWithInt:1];
     }
     AMPRevenue *ampRevenue = [AMPRevenue revenue];
     [[[ampRevenue setPrice:price] setQuantity:[quantity integerValue]] setEventProperties:eventProperties];
-    if(revenueType && [revenueType length]!=0)
-    {
+    if(revenueType && [revenueType length]!=0) {
         [ampRevenue setRevenueType:revenueType];
     }
-    if(productId && [productId length]!=0)
-    {
+    if(productId && [productId length]!=0) {
         [ampRevenue setProductIdentifier:productId];
     }
-    if(receipt)
-    {
+    if(receipt) {
         [ampRevenue setReceipt:receipt];
     }
     [[Amplitude instance] logRevenueV2:ampRevenue];
@@ -444,11 +400,10 @@
     amplitudeConfig.useIdfaAsDeviceId       = [[destinationConfig objectForKey:@"useIdfaAsDeviceId"] boolValue];
     return amplitudeConfig;
 }
-- (NSMutableSet *) getNSMutableSet: (NSArray*) array
-{
+
+- (NSMutableSet *) getNSMutableSet: (NSArray*) array {
     NSMutableSet *mutableSet = [[NSMutableSet alloc ]init];
-    for (id obj in array)
-    {
+    for (id obj in array) {
         [mutableSet addObject:[obj objectForKey:@"traits"]];
     }
     return mutableSet;

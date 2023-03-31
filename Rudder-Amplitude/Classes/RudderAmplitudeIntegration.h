@@ -26,15 +26,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-
-@implementation AmplitudePlan
-@end
-
-@implementation AmplitudeIngestionMetadata
-
-@end
-
-
 @interface AmplitudeConfig : NSObject
     
 @property NSString *apiKey;
@@ -79,12 +70,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSSet *traitsToPrepend;
 
 @end
-
-
-
-@implementation AmplitudeConfig
-@end
-
 
 @interface RudderAmplitudeIntegration : NSObject<RSIntegration>{
     AmplitudeConfig *amplitudeConfig;
