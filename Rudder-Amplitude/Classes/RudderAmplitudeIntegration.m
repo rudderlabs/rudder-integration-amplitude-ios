@@ -9,72 +9,47 @@
 #import <Rudder/Rudder.h>
 #import <malloc/malloc.h>
 
+
 @implementation RudderAmplitudeIntegration
 
 #pragma mark - Initialization
 
 - (instancetype) initWithConfig:(NSDictionary *)config withAnalytics:(nonnull RSClient *)client  withRudderConfig:(nonnull RSConfig *)rudderConfig
 {
+    
     self = [super init];
     if (self)
     {
         // do initialization here
         [RSLogger logDebug:@"Initializing Amplitude SDK"];
         dispatch_async(dispatch_get_main_queue(), ^{
-            //take values from config
-            self.apiKey = [config objectForKey:@"apiKey"];
-            
-            // page settings
-            self.trackAllPages           = [[config objectForKey:@"trackAllPages"] boolValue];
-            self.trackNamedPages         = [[config objectForKey:@"trackNamedPages"] boolValue];
-            self.trackCategorizedPages   = [[config objectForKey:@"trackCategorizedPages"] boolValue];
-            
-            //track settings
-            self.trackProductsOnce       = [[config objectForKey:@"trackProductsOnce"] boolValue];
-            self.trackRevenuePerProduct  = [[config objectForKey:@"trackRevenuePerProduct"] boolValue];
-            
-            // traits settings
-            self.traitsToIncrement       = [[self getNSMutableSet:[config objectForKey:@"traitsToIncrement"]] copy];
-            self.traitsToSetOnce         = [[self getNSMutableSet:[config objectForKey:@"traitsToSetOnce"]] copy];
-            self.traitsToAppend          = [[self getNSMutableSet:[config objectForKey:@"traitsToAppend"]] copy];
-            self.traitsToPrepend         = [[self getNSMutableSet:[config objectForKey:@"traitsToPrepend"]] copy];
-            
-            //group settings
-            self.groupTypeTrait          = [config objectForKey:@"groupTypeTrait"];
-            self.groupValueTrait         = [config objectForKey:@"groupValueTrait"];
-            
-            // config settings
-            self.trackSessionEvents      = [[config objectForKey:@"trackSessionEvents"] boolValue];
-            self.eventUploadPeriodMillis = [[config objectForKey:@"eventUploadPeriodMillis"] intValue];
-            self.eventUploadThreshold    = [[config objectForKey:@"eventUploadThreshold"] intValue];
-            self.enableLocationListening = [[config objectForKey:@"enableLocationListening"] boolValue];
-            self.useIdfaAsDeviceId       = [[config objectForKey:@"useIdfaAsDeviceId"] boolValue];
+            amplitudeConfig = [self createAMPConfigurationFromDestConfig:config];
             
             // track session events
-            if(self.trackSessionEvents)
+            if(amplitudeConfig.trackSessionEvents)
             {
                 [Amplitude instance].trackingSessionEvents = YES;
             }
             
             // batching configuration
-            if(self.eventUploadPeriodMillis)
+            if(amplitudeConfig.eventUploadPeriodMillis)
             {
-                [Amplitude instance].eventUploadPeriodSeconds = self.eventUploadPeriodMillis/1000;
+                [Amplitude instance].eventUploadPeriodSeconds = amplitudeConfig.eventUploadPeriodMillis/1000;
             }
             
-            if(self.eventUploadThreshold)
+            if(amplitudeConfig.eventUploadThreshold)
             {
-                [Amplitude instance].eventUploadThreshold = self.eventUploadThreshold;
+                [Amplitude instance].eventUploadThreshold = amplitudeConfig.eventUploadThreshold;
             }
             
             // using Advertising Id for Device Id
-            if(self.useIdfaAsDeviceId)
+            if(amplitudeConfig.useIdfaAsDeviceId)
             {
                 [[Amplitude instance] useAdvertisingIdForDeviceId];
             }
             
             // Initialize SDK
-            [[Amplitude instance] initializeApiKey:self.apiKey];
+            [[Amplitude instance] initializeApiKey:amplitudeConfig.apiKey];
         });
     }
     return self;
@@ -121,7 +96,7 @@
             NSMutableDictionary *propertiesDictionary = [message.properties mutableCopy];
             NSArray *products                         = [propertiesDictionary objectForKey:@"products"];
             
-            if(self.trackProductsOnce)
+            if(amplitudeConfig.trackProductsOnce)
             {
                 if(products)
                 {
@@ -129,9 +104,9 @@
                     propertiesDictionary[@"products"] = simplifiedProducts;
                     [self logEventAndCorrespondingRevenue:propertiesDictionary
                                             withEventName:event
-                                    withDoNotTrackRevenue:self.trackRevenuePerProduct];
+                                    withDoNotTrackRevenue:amplitudeConfig.trackRevenuePerProduct];
                     
-                    if(self.trackRevenuePerProduct)
+                    if(amplitudeConfig.trackRevenuePerProduct)
                     {
                         [self trackingEventAndRevenuePerProduct:propertiesDictionary
                                               withProductsArray:products
@@ -149,7 +124,7 @@
                 [propertiesDictionary removeObjectForKey:@"products"];
                 [self logEventAndCorrespondingRevenue:propertiesDictionary
                                         withEventName:event
-                                withDoNotTrackRevenue:self.trackRevenuePerProduct];
+                                withDoNotTrackRevenue:amplitudeConfig.trackRevenuePerProduct];
                 [self trackingEventAndRevenuePerProduct:propertiesDictionary
                                       withProductsArray:products
                                withTrackEventPerProduct:TRUE];
@@ -163,7 +138,7 @@
     else if ([type isEqualToString:@"screen"])
     {
         NSDictionary *properties = message.properties;
-        if(self.trackAllPages)
+        if(amplitudeConfig.trackAllPages)
         {
             if([properties objectForKey:@"name"] &&
                [[properties objectForKey:@"name"] length] != 0 )
@@ -182,7 +157,7 @@
             }
         }
         
-        if(self.trackNamedPages &&
+        if(amplitudeConfig.trackNamedPages &&
            [properties objectForKey:@"name"] &&
            [[properties objectForKey:@"name"] length] != 0)
         {
@@ -193,7 +168,7 @@
                               outOfSession:FALSE];
         }
         
-        if(self.trackCategorizedPages &&
+        if(amplitudeConfig.trackCategorizedPages &&
            [properties objectForKey:@"category"] &&
            [[properties objectForKey:@"category"] length] != 0)
         {
@@ -257,28 +232,28 @@
     AMPIdentify *identify = [AMPIdentify identify];
     for(id key in traits)
     {
-        if([self.traitsToIncrement containsObject:key])
+        if([amplitudeConfig.traitsToIncrement containsObject:key])
         {
             [identify add:key value:[traits objectForKey:key]];
             // need to check if amplitude native sdk supports
             // more than one operation on the same key in a identify call
             continue;
         }
-        if([self.traitsToSetOnce containsObject:key])
+        if([amplitudeConfig.traitsToSetOnce containsObject:key])
         {
             [identify setOnce:key value:[traits objectForKey:key]];
             // need to check if amplitude native sdk supports
             // more than one operation on the same key in a identify call
             continue;
         }
-        if([self.traitsToAppend containsObject:key])
+        if([amplitudeConfig.traitsToAppend containsObject:key])
         {
             [identify append:key value:[traits objectForKey:key]];
             // need to check if amplitude native sdk supports
             // more than one operation on the same key in a identify call
             continue;
         }
-        if([self.traitsToPrepend containsObject:key])
+        if([amplitudeConfig.traitsToPrepend containsObject:key])
         {
             [identify prepend:key value:[traits objectForKey:key]];
             // need to check if amplitude native sdk supports
@@ -290,15 +265,7 @@
     [[Amplitude instance] identify:identify outOfSession:optOutOfSession];
 }
 
-- (NSMutableSet*) getNSMutableSet: (NSArray*) array
-{
-    NSMutableSet *mutableSet = [[NSMutableSet alloc ]init];
-    for (id obj in array)
-    {
-        [mutableSet addObject:[obj objectForKey:@"traits"]];
-    }
-    return mutableSet;
-}
+
 
 - (NSNumber*) getDictionarySize: (NSDictionary*) groupTraits
 {
@@ -357,7 +324,7 @@
                             ?:nil;
     for(NSMutableDictionary *product in products)
     {
-        if(self.trackRevenuePerProduct)
+        if(amplitudeConfig.trackRevenuePerProduct)
         {
             if(revenueType)
             {
@@ -443,6 +410,48 @@
         [ampRevenue setReceipt:receipt];
     }
     [[Amplitude instance] logRevenueV2:ampRevenue];
+}
+
+- (AmplitudeConfig *)createAMPConfigurationFromDestConfig: (NSDictionary *) destinationConfig {
+    //take values from destinationConfig
+    AmplitudeConfig *amplitudeConfig = [[AmplitudeConfig alloc] init];
+    amplitudeConfig.apiKey = [destinationConfig objectForKey:@"apiKey"];
+    
+    // page settings
+    amplitudeConfig.trackAllPages           = [[destinationConfig objectForKey:@"trackAllPages"] boolValue];
+    amplitudeConfig.trackNamedPages         = [[destinationConfig objectForKey:@"trackNamedPages"] boolValue];
+    amplitudeConfig.trackCategorizedPages   = [[destinationConfig objectForKey:@"trackCategorizedPages"] boolValue];
+    
+    //track settings
+    amplitudeConfig.trackProductsOnce       = [[destinationConfig objectForKey:@"trackProductsOnce"] boolValue];
+    amplitudeConfig.trackRevenuePerProduct  = [[destinationConfig objectForKey:@"trackRevenuePerProduct"] boolValue];
+    
+    // traits settings
+    amplitudeConfig.traitsToIncrement       = [self getNSMutableSet:[destinationConfig objectForKey:@"traitsToIncrement"]];
+    amplitudeConfig.traitsToSetOnce         = [self getNSMutableSet:[destinationConfig objectForKey:@"traitsToSetOnce"]] ;
+    amplitudeConfig.traitsToAppend          = [self getNSMutableSet:[destinationConfig objectForKey:@"traitsToAppend"]];
+    amplitudeConfig.traitsToPrepend         = [self getNSMutableSet:[destinationConfig objectForKey:@"traitsToPrepend"]];
+    
+    //group settings
+    amplitudeConfig.groupTypeTrait          = [destinationConfig objectForKey:@"groupTypeTrait"];
+    amplitudeConfig.groupValueTrait         = [destinationConfig objectForKey:@"groupValueTrait"];
+    
+    // destinationConfig settings
+    amplitudeConfig.trackSessionEvents      = [[destinationConfig objectForKey:@"trackSessionEvents"] boolValue];
+    amplitudeConfig.eventUploadPeriodMillis = [[destinationConfig objectForKey:@"eventUploadPeriodMillis"] intValue];
+    amplitudeConfig.eventUploadThreshold    = [[destinationConfig objectForKey:@"eventUploadThreshold"] intValue];
+    amplitudeConfig.enableLocationListening = [[destinationConfig objectForKey:@"enableLocationListening"] boolValue];
+    amplitudeConfig.useIdfaAsDeviceId       = [[destinationConfig objectForKey:@"useIdfaAsDeviceId"] boolValue];
+    return amplitudeConfig;
+}
+- (NSMutableSet *) getNSMutableSet: (NSArray*) array
+{
+    NSMutableSet *mutableSet = [[NSMutableSet alloc ]init];
+    for (id obj in array)
+    {
+        [mutableSet addObject:[obj objectForKey:@"traits"]];
+    }
+    return mutableSet;
 }
 
 @end
