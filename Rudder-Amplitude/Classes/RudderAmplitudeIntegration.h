@@ -7,24 +7,13 @@
 
 #import <Foundation/Foundation.h>
 #import <Rudder/Rudder.h>
+#import <Amplitude/AMPPlan.h>
+#import <Amplitude/AMPIngestionMetadata.h>
+#import <Amplitude/AMPTrackingOptions.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AmplitudeIngestionMetadata : NSObject
 
-@property (nonatomic, strong) NSString *sourceName;
-@property (nonatomic, strong) NSString *sourceVersion;
-
-@end
-
-@interface AmplitudePlan : NSObject
-
-@property (nonatomic, copy) NSString *branch;
-@property (nonatomic, copy) NSString *source;
-@property (nonatomic, copy) NSString *version;
-@property (nonatomic, copy) NSString *versionId;
-
-@end
 
 @interface AmplitudeConfig : NSObject
     
@@ -33,9 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) int eventUploadPeriodMillis;
 @property (nonatomic) int eventUploadThreshold;
 
-@property (nonatomic) BOOL sendEvents;
-@property (nonatomic) BOOL enableLocationListening;
-@property (nonatomic) BOOL useIdfaAsDeviceId;
 @property (nonatomic) BOOL trackSessionEvents;
 
 @property (nonatomic) BOOL trackAllPages;
@@ -51,17 +37,19 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL useAdvertisingIdForDeviceId;
 @property (nonatomic, strong) NSString *residencyServer;
 @property (nonatomic, strong) NSString *serverUrl;
-@property (nonatomic, nullable) AmplitudePlan *plan;
-@property (nonatomic, nullable) AmplitudeIngestionMetadata *ingestionMetadata;
-@property (nonatomic, strong) NSNumber *useAppSetIdForDeviceId; // Note: Boolean is not a primitive type in Objective-C
-@property (nonatomic, strong) NSNumber *deviceIdPerInstall; // Note: Boolean is not a primitive type in Objective-C
-@property (nonatomic, strong) NSNumber *enableCoppaControl; // Note: Boolean is not a primitive type in Objective-C
-@property (nonatomic, strong) NSNumber *flushEventsOnClose; // Note: Boolean is not a primitive type in Objective-C
-@property (nonatomic, strong) NSNumber *minTimeBetweenSessionMillis; // Note: Long is not a primitive type in Objective-C
-@property (nonatomic, strong) NSNumber *identifyBatchIntervalMillis; // Note: Long is not a primitive type in Objective-C
-@property (nonatomic, strong) NSNumber *flushMaxRetries; // Note: Integer is not a primitive type in Objective-C
-@property (nonatomic, strong) NSNumber *optOut; // Note: Boolean is not a primitive type in Objective-C
-@property (nonatomic, assign) BOOL useBatch;
+@property (nonatomic, nullable) AMPPlan *plan;
+@property (nonatomic, nullable) AMPIngestionMetadata *ingestionMetadata;
+@property (nonatomic, nullable) AMPTrackingOptions *trackingOptions;
+@property (nonatomic, assign) BOOL *enableCoppaControl; //default false
+@property (nonatomic) int minTimeBetweenSessionMillis; // defult 5 minutes
+//setIdentifyUploadPeriodSeconds for iOS
+@property (nonatomic) int identifyBatchIntervalMillis;
+@property (nonatomic, assign) BOOL *optOut;
+//specific to iOS
+@property (nonatomic) int eventUploadMaxBatchSize; //The maximum number of events sent with each upload request. default - 100
+@property (nonatomic) int eventMaxCount; //The maximum number of unsent events to keep on the device. default 1000
+@property (nonatomic, assign) BOOL *offline; //Disables sending logged events to Amplitude servers. Events will be sent when set to true.
+@property (nonatomic) int identifyUploadPeriodSeconds;//The amount of time SDK will attempt to batch intercepted identify events. default 30
 
 
 @property (nonatomic) NSSet *traitsToIncrement;
