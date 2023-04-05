@@ -40,15 +40,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable) AMPPlan *plan;
 @property (nonatomic, nullable) AMPIngestionMetadata *ingestionMetadata;
 @property (nonatomic, nullable) AMPTrackingOptions *trackingOptions;
-@property (nonatomic, assign) BOOL *enableCoppaControl; //default false
+@property (nonatomic, assign) BOOL enableCoppaControl; //default false
 @property (nonatomic) int minTimeBetweenSessionMillis; // defult 5 minutes
 //setIdentifyUploadPeriodSeconds for iOS
 @property (nonatomic) int identifyBatchIntervalMillis;
-@property (nonatomic, assign) BOOL *optOut;
+@property (nonatomic, assign) BOOL optOut;
 //specific to iOS
 @property (nonatomic) int eventUploadMaxBatchSize; //The maximum number of events sent with each upload request. default - 100
 @property (nonatomic) int eventMaxCount; //The maximum number of unsent events to keep on the device. default 1000
-@property (nonatomic, assign) BOOL *offline; //Disables sending logged events to Amplitude servers. Events will be sent when set to true.
+@property (nonatomic, assign) BOOL offline; //Disables sending logged events to Amplitude servers. Events will be sent when set to true.
 @property (nonatomic) int identifyUploadPeriodSeconds;//The amount of time SDK will attempt to batch intercepted identify events. default 30
 
 

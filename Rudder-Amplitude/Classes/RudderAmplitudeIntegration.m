@@ -78,13 +78,13 @@
                 [Amplitude instance].serverUrl = serverUrl;
             }
             
-            BOOL *optOut =self-> amplitudeConfig.optOut;
+            BOOL optOut =self-> amplitudeConfig.optOut;
             if(optOut){
                 [Amplitude instance].optOut = optOut;
             }
             [[Amplitude instance] setTrackingOptions: self->amplitudeConfig.trackingOptions];
             
-            BOOL *offline =self-> amplitudeConfig.offline;
+            BOOL offline =self-> amplitudeConfig.offline;
             if(offline){
                 [[Amplitude instance] setOffline: self->amplitudeConfig.offline];
             }
@@ -470,48 +470,48 @@
     if(amplitudeTrackingConfig){
         
         if(! [[amplitudeTrackingConfig objectForKey: @"carrier"] boolValue]){
-            trackingOptions.disableCarrier;
+            [trackingOptions disableCarrier];
         }
         if(! [[amplitudeTrackingConfig objectForKey: @"city"] boolValue]){
-            trackingOptions.disableCity;
+            [trackingOptions disableCity];
         }
         if(! [[amplitudeTrackingConfig objectForKey: @"country"] boolValue]){
-            trackingOptions.disableCountry;
+            [trackingOptions disableCountry];
         }
         if(! [[amplitudeTrackingConfig objectForKey: @"deviceModel"] boolValue]){
-            trackingOptions.disableDeviceModel;
+            [trackingOptions disableDeviceModel];
         }
         if(! [[amplitudeTrackingConfig objectForKey: @"dma"] boolValue]){
-            trackingOptions.disableDMA;
+            [trackingOptions disableDMA];
         }
         if(! [[amplitudeTrackingConfig objectForKey: @"ipAddress"] boolValue]){
-            trackingOptions.disableIPAddress;
+            [trackingOptions disableIPAddress];
         }
         if(! [[amplitudeTrackingConfig objectForKey: @"language"] boolValue]){
-            trackingOptions.disableLanguage;
+            [trackingOptions disableLanguage];
         }
         if(! [[amplitudeTrackingConfig objectForKey: @"latlng"] boolValue]){
-            trackingOptions.disableLatLng;
+            [trackingOptions disableLatLng];
         }
         if(! [[amplitudeTrackingConfig objectForKey: @"osName"] boolValue]){
-            trackingOptions.disableOSName;
+            [trackingOptions disableOSName];
         }
         if(! [[amplitudeTrackingConfig objectForKey: @"osVersion"] boolValue]){
-            trackingOptions.disableOSVersion;
+            [trackingOptions disableOSVersion];
         }
         if(! [[amplitudeTrackingConfig objectForKey: @"region"] boolValue]){
-            trackingOptions.disableRegion;
+            [trackingOptions disableRegion];
         }
         if(! [[amplitudeTrackingConfig objectForKey: @"versionName"] boolValue]){
-            trackingOptions.disableVersionName;
+            [trackingOptions disableVersionName];
         }
         
         if(! [[amplitudeTrackingConfig objectForKey: @"idfa"] boolValue]){
-            trackingOptions.disableIDFA;
+            [trackingOptions disableIDFA];
         }
         
         if(! [[amplitudeTrackingConfig objectForKey: @"idfv"] boolValue]){
-            trackingOptions.disableIDFV;
+            [trackingOptions disableIDFV];
         }
         
     }
