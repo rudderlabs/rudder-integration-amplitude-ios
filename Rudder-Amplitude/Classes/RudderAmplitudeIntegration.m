@@ -17,8 +17,6 @@
 
 #pragma mark - Initialization
 
-NSString *const BATCH_SERVER_URL = @"https://api2.amplitude.com/batch";
-NSString *const SINGLE_EVENT_SERVER_URL = @"https://api2.amplitude.com/2/httpapi";
 
 
 - (instancetype) initWithConfig:(NSDictionary *)config withAnalytics:(nonnull RSClient *)client  withRudderConfig:(nonnull RSConfig *)rudderConfig {
@@ -46,9 +44,6 @@ NSString *const SINGLE_EVENT_SERVER_URL = @"https://api2.amplitude.com/2/httpapi
                 [Amplitude instance].eventUploadPeriodSeconds = self->amplitudeConfig.eventUploadPeriodMillis/1000;
             }
             
-            if(self->amplitudeConfig.eventUploadThreshold) {
-                [Amplitude instance].eventUploadThreshold = self->amplitudeConfig.eventUploadThreshold;
-            }
             
             if(self->amplitudeConfig.eventUploadThreshold) {
                 [Amplitude instance].eventUploadThreshold = self->amplitudeConfig.eventUploadThreshold;
@@ -59,31 +54,20 @@ NSString *const SINGLE_EVENT_SERVER_URL = @"https://api2.amplitude.com/2/httpapi
                 [Amplitude instance].eventUploadPeriodSeconds = (eventUploadPeriodMillis/1000);
             }
             
-            int eventUploadMaxBatchSize =self->amplitudeConfig.eventUploadThreshold;
-            if(eventUploadMaxBatchSize && eventUploadMaxBatchSize> 0){
-                [Amplitude instance].eventUploadMaxBatchSize = eventUploadMaxBatchSize;
-            }
-            
             
             long minTimeBetweenSessionsMillis = rudderConfig.sessionInActivityTimeOut;
             if(minTimeBetweenSessionsMillis && minTimeBetweenSessionsMillis> 0){
                 [Amplitude instance].minTimeBetweenSessionsMillis = minTimeBetweenSessionsMillis;
             }
             
-            NSString *serverUrl = self.getServerUrl;
-            if(serverUrl && serverUrl.length> 0){
-                [Amplitude instance].serverUrl = serverUrl;
-            }
-            
+
             // Initialize SDK
             [[Amplitude instance] initializeApiKey:self->amplitudeConfig.apiKey];
         });
     }
     return self;
 }
-- (NSString *)getServerUrl {
-    return (self ->amplitudeConfig.eventUploadThreshold > 0) ? BATCH_SERVER_URL : SINGLE_EVENT_SERVER_URL;
-}
+
 - (void) dump:(RSMessage *)message {
     @try {
         if (message != nil) {

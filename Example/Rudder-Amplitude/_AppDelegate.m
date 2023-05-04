@@ -16,12 +16,12 @@
 {
     // Override point for customization after application launch.
     
-    NSString *WRITE_KEY = @"1lBKwrWfz3uxVlqwhILguTz8XGL";
-    NSString *DATA_PLANE_URL = @"http://localhost:8080";
+    NSString *WRITE_KEY = @"write_key";
+    NSString *DATA_PLANE_URL = @"data_plane_url";
     
     RSConfigBuilder *configBuilder = [[RSConfigBuilder alloc] init];
     [configBuilder withDataPlaneUrl:DATA_PLANE_URL];
-    [configBuilder withControlPlaneUrl:@"https://80a1384095dc.ngrok.io"];
+    [configBuilder withControlPlaneUrl:@"control_plane_url"];
     [configBuilder withLoglevel:RSLogLevelDebug];
     [configBuilder withFactory:[RudderAmplitudeFactory instance]];
     [RSClient getInstance:WRITE_KEY config:[configBuilder build]];
@@ -86,7 +86,7 @@
                                        @"company_name": @"RudderStack"}
      ];
     //    //Reset Call
-    [[RSClient sharedInstance] reset];
+//    [[RSClient sharedInstance] reset];
     return YES;
 }
 
