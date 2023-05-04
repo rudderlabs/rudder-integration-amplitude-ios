@@ -17,6 +17,10 @@
 
 #pragma mark - Initialization
 
+NSString *const BATCH_SERVER_URL = @"https://api2.amplitude.com/batch";
+NSString *const SINGLE_EVENT_SERVER_URL = @"https://api2.amplitude.com/2/httpapi";
+
+
 - (instancetype) initWithConfig:(NSDictionary *)config withAnalytics:(nonnull RSClient *)client  withRudderConfig:(nonnull RSConfig *)rudderConfig {
     
     self = [super init];
@@ -49,53 +53,37 @@
             if(self->amplitudeConfig.eventUploadThreshold) {
                 [Amplitude instance].eventUploadThreshold = self->amplitudeConfig.eventUploadThreshold;
             }
-            // using Advertising Id for Device Id
-            if(self->amplitudeConfig.useAdvertisingIdForDeviceId) {
-                [[Amplitude instance] useAdvertisingIdForDeviceId];
-            }
+            
             int eventUploadPeriodMillis =self->amplitudeConfig.eventUploadPeriodMillis;
             if(eventUploadPeriodMillis && eventUploadPeriodMillis> 0){
                 [Amplitude instance].eventUploadPeriodSeconds = (eventUploadPeriodMillis/1000);
             }
             
-            int eventUploadMaxBatchSize =self->amplitudeConfig.eventUploadMaxBatchSize;
+            int eventUploadMaxBatchSize =self->amplitudeConfig.eventUploadThreshold;
             if(eventUploadMaxBatchSize && eventUploadMaxBatchSize> 0){
                 [Amplitude instance].eventUploadMaxBatchSize = eventUploadMaxBatchSize;
             }
             
-            int eventMaxCount =self->amplitudeConfig.eventMaxCount;
-            if(eventMaxCount && eventMaxCount> 0){
-                [Amplitude instance].eventMaxCount = eventMaxCount;
-            }
             
-            int minTimeBetweenSessionsMillis =self-> amplitudeConfig.minTimeBetweenSessionMillis;
+            long minTimeBetweenSessionsMillis = rudderConfig.sessionInActivityTimeOut;
             if(minTimeBetweenSessionsMillis && minTimeBetweenSessionsMillis> 0){
                 [Amplitude instance].minTimeBetweenSessionsMillis = minTimeBetweenSessionsMillis;
             }
             
-            NSString *serverUrl =self-> amplitudeConfig.serverUrl;
+            NSString *serverUrl = self.getServerUrl;
             if(serverUrl && serverUrl.length> 0){
                 [Amplitude instance].serverUrl = serverUrl;
             }
             
-            BOOL *optOut =self-> amplitudeConfig.optOut;
-            if(optOut){
-                [Amplitude instance].optOut = optOut;
-            }
-            [[Amplitude instance] setTrackingOptions: self->amplitudeConfig.trackingOptions];
-            
-            BOOL *offline =self-> amplitudeConfig.offline;
-            if(offline){
-                [[Amplitude instance] setOffline: self->amplitudeConfig.offline];
-            }
-
             // Initialize SDK
             [[Amplitude instance] initializeApiKey:self->amplitudeConfig.apiKey];
         });
     }
     return self;
 }
-
+- (NSString *)getServerUrl {
+    return (self ->amplitudeConfig.eventUploadThreshold > 0) ? BATCH_SERVER_URL : SINGLE_EVENT_SERVER_URL;
+}
 - (void) dump:(RSMessage *)message {
     @try {
         if (message != nil) {
@@ -434,88 +422,10 @@
     amplitudeConfig.trackSessionEvents      = [[destinationConfig objectForKey:@"trackSessionEvents"] boolValue];
     amplitudeConfig.eventUploadPeriodMillis = [[destinationConfig objectForKey:@"eventUploadPeriodMillis"] intValue];
     amplitudeConfig.eventUploadThreshold    = [[destinationConfig objectForKey:@"eventUploadThreshold"] intValue];
-    amplitudeConfig.useAdvertisingIdForDeviceId    = [[destinationConfig objectForKey:@"useAdvertisingIdForDeviceId"] boolValue];
     amplitudeConfig.residencyServer    = [[destinationConfig objectForKey:@"residencyServer"] stringValue];
-    amplitudeConfig.serverUrl    = [[destinationConfig objectForKey:@"serverUrl"] stringValue];
-    amplitudeConfig.enableCoppaControl = [[destinationConfig objectForKey:@"enableCoppaControl"] boolValue];
-    amplitudeConfig.minTimeBetweenSessionMillis = [[destinationConfig objectForKey:@"minTimeBetweenSessionMillis"] intValue];
-    amplitudeConfig.identifyBatchIntervalMillis = [[destinationConfig objectForKey:@"identifyBatchIntervalMillis"] intValue];
-    amplitudeConfig.optOut = [[destinationConfig objectForKey:@"optOut"] boolValue];
-    amplitudeConfig.offline = [[destinationConfig objectForKey:@"Offline"] boolValue];
-    amplitudeConfig.identifyUploadPeriodSeconds = [[destinationConfig objectForKey:@"identifyUploadPeriodSeconds"] intValue];
 
-    //plan
-    NSDictionary *ampPlan;
-    ampPlan = [destinationConfig objectForKey:@"plan"];
-    if(ampPlan){
-        AMPPlan *plan = [[AMPPlan alloc] init];
-        plan.branch = [[ampPlan objectForKey:@"branch"] stringValue];
-        plan.source = [[ampPlan objectForKey:@"source"] stringValue];
-        plan.version = [[ampPlan objectForKey:@"version"] stringValue];
-        plan.versionId = [[ampPlan objectForKey:@"versionId"] stringValue];
-        amplitudeConfig.plan = plan;
-    }
-    //ingestion meta data
-    NSDictionary *ampIngestionMetadata;
-    ampIngestionMetadata = [destinationConfig objectForKey:@"ingestionMetadata"];
-    if(ampPlan){
-        AMPIngestionMetadata *ingestionMetadata = [[AMPIngestionMetadata alloc] init];
-        ingestionMetadata.sourceName = [[ampPlan objectForKey:@"sourceName"] stringValue];
-        ingestionMetadata.sourceVersion = [[ampPlan objectForKey:@"sourceVersion"] stringValue];
-        amplitudeConfig.ingestionMetadata = ingestionMetadata;
-    }
-    //tracking options
-    AMPTrackingOptions *trackingOptions = [[AMPTrackingOptions alloc] init];
-    NSDictionary *amplitudeTrackingConfig = [destinationConfig objectForKey:@"trackingOptions"];
-    if(amplitudeTrackingConfig){
-        
-        if(! [[amplitudeTrackingConfig objectForKey: @"carrier"] boolValue]){
-            trackingOptions.disableCarrier;
-        }
-        if(! [[amplitudeTrackingConfig objectForKey: @"city"] boolValue]){
-            trackingOptions.disableCity;
-        }
-        if(! [[amplitudeTrackingConfig objectForKey: @"country"] boolValue]){
-            trackingOptions.disableCountry;
-        }
-        if(! [[amplitudeTrackingConfig objectForKey: @"deviceModel"] boolValue]){
-            trackingOptions.disableDeviceModel;
-        }
-        if(! [[amplitudeTrackingConfig objectForKey: @"dma"] boolValue]){
-            trackingOptions.disableDMA;
-        }
-        if(! [[amplitudeTrackingConfig objectForKey: @"ipAddress"] boolValue]){
-            trackingOptions.disableIPAddress;
-        }
-        if(! [[amplitudeTrackingConfig objectForKey: @"language"] boolValue]){
-            trackingOptions.disableLanguage;
-        }
-        if(! [[amplitudeTrackingConfig objectForKey: @"latlng"] boolValue]){
-            trackingOptions.disableLatLng;
-        }
-        if(! [[amplitudeTrackingConfig objectForKey: @"osName"] boolValue]){
-            trackingOptions.disableOSName;
-        }
-        if(! [[amplitudeTrackingConfig objectForKey: @"osVersion"] boolValue]){
-            trackingOptions.disableOSVersion;
-        }
-        if(! [[amplitudeTrackingConfig objectForKey: @"region"] boolValue]){
-            trackingOptions.disableRegion;
-        }
-        if(! [[amplitudeTrackingConfig objectForKey: @"versionName"] boolValue]){
-            trackingOptions.disableVersionName;
-        }
-        
-        if(! [[amplitudeTrackingConfig objectForKey: @"idfa"] boolValue]){
-            trackingOptions.disableIDFA;
-        }
-        
-        if(! [[amplitudeTrackingConfig objectForKey: @"idfv"] boolValue]){
-            trackingOptions.disableIDFV;
-        }
-        
-    }
-    amplitudeConfig.trackingOptions = trackingOptions;
+
+    
     return amplitudeConfig;
 }
 
