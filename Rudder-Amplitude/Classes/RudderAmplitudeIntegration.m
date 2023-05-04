@@ -424,8 +424,6 @@ NSString *const SINGLE_EVENT_SERVER_URL = @"https://api2.amplitude.com/2/httpapi
     amplitudeConfig.eventUploadThreshold    = [[destinationConfig objectForKey:@"eventUploadThreshold"] intValue];
     amplitudeConfig.residencyServer    = [[destinationConfig objectForKey:@"residencyServer"] stringValue];
 
-
-    
     return amplitudeConfig;
 }
 

@@ -35,7 +35,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSString *groupValueTrait;
 
 @property (nonatomic, strong) NSString *residencyServer;
-//@property (nonatomic) int minTimeBetweenSessionMillis; // defult 5 minutes
 
 @property (nonatomic) NSSet *traitsToIncrement;
 @property (nonatomic) NSSet *traitsToSetOnce;
