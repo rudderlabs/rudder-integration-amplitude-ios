@@ -9,6 +9,7 @@
 #import "_AppDelegate.h"
 #import <Rudder/Rudder.h>
 #import "RudderAmplitudeFactory.h"
+#import "Rudder_Amplitude_Example-Swift.h"
 
 @implementation _AppDelegate
 
@@ -16,57 +17,48 @@
 {
     // Override point for customization after application launch.
     
-    NSString *WRITE_KEY = @"1lBKwrWfz3uxVlqwhILguTz8XGL";
-    NSString *DATA_PLANE_URL = @"http://localhost:8080";
-    
-    RSConfigBuilder *configBuilder = [[RSConfigBuilder alloc] init];
-    [configBuilder withDataPlaneUrl:DATA_PLANE_URL];
-    [configBuilder withControlPlaneUrl:@"https://80a1384095dc.ngrok.io"];
-    [configBuilder withLoglevel:RSLogLevelDebug];
-    [configBuilder withFactory:[RudderAmplitudeFactory instance]];
-    [RSClient getInstance:WRITE_KEY config:[configBuilder build]];
-    
-//    Optional : Uncomment this to enable Tracking Location
-//    [Amplitude instance].locationInfoBlock = ^{
-//        return @{
-//                  @"lat" : @37.7,
-//                  @"lng" : @122.4
-//                };
-//      };
-//    Optional : Uncomment this to send IDFA as device ID to Amplitude
-//      [Amplitude instance].adSupportBlock = ^{
-//        return [[ASIdentifierManager sharedManager] advertisingIdentifier];
-//      };
-    
-    // identify call
-    NSMutableArray *awardsArray = [NSMutableArray array];
-    [awardsArray addObject:[NSNumber numberWithInt:5]];
-    [awardsArray addObject:[NSNumber numberWithInt:6]];
-    NSMutableArray *rewardsArray = [NSMutableArray array];
-    [rewardsArray addObject:[NSNumber numberWithInt:7]];
-    [rewardsArray addObject:[NSNumber numberWithInt:8]];
-    
-    [[RSClient sharedInstance] identify:@"JamesBond"
-                                 traits:@{@"firstName": @"James",
-                                          @"LastName": @"Bond",
-                                          @"email": @"Bond@james.com",
-                                          @"friends":[NSNumber numberWithInt:10],
-                                          @"city":@"CA",
-                                          @"awards":[NSNumber numberWithInt:1],
-                                          @"rewards":@"11"
-                                 }];
-    // screen call
-    [[RSClient sharedInstance] screen:@"The Cinema"  properties:@{@"prop_key" : @"prop_value",@"category":@"TENET"}];
-    // Track Call
-    [[RSClient sharedInstance] track:@"simple_track_event"];
-    [[RSClient sharedInstance] track:@"simple_track_with_props" properties:@{
-        @"key_1" : @"value_1",
-        @"key_2" : @"value_2"
-    }];
-    [[RSClient sharedInstance] track:@"Order Done" properties:@{
-        @"revenue" : @100,
-        @"orderId" : @"ooo1111111",
-        @"products" : @[
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"RudderConfig" ofType:@"plist"];
+    if (path != nil) {
+        NSURL *url = [NSURL fileURLWithPath:path];
+        RudderConfig *rudderConfig = [RudderConfig createFrom:url];
+        if (rudderConfig != nil) {
+            RSConfigBuilder *configBuilder = [[RSConfigBuilder alloc] init];
+            [configBuilder withDataPlaneUrl:rudderConfig.PROD_DATA_PLANE_URL];
+            [configBuilder withControlPlaneUrl:@"control_plane_url"];
+            [configBuilder withLoglevel:RSLogLevelDebug];
+            [configBuilder withFactory:[RudderAmplitudeFactory instance]];
+            [RSClient getInstance:rudderConfig.WRITE_KEY config:[configBuilder build]];
+        }
+        
+        // identify call
+        NSMutableArray *awardsArray = [NSMutableArray array];
+        [awardsArray addObject:[NSNumber numberWithInt:5]];
+        [awardsArray addObject:[NSNumber numberWithInt:6]];
+        NSMutableArray *rewardsArray = [NSMutableArray array];
+        [rewardsArray addObject:[NSNumber numberWithInt:7]];
+        [rewardsArray addObject:[NSNumber numberWithInt:8]];
+        
+        [[RSClient sharedInstance] identify:@"JamesBond"
+                                     traits:@{@"firstName": @"James",
+                                              @"LastName": @"Bond",
+                                              @"email": @"Bond@james.com",
+                                              @"friends":[NSNumber numberWithInt:10],
+                                              @"city":@"CA",
+                                              @"awards":[NSNumber numberWithInt:1],
+                                              @"rewards":@"11"
+                                            }];
+        // screen call
+        [[RSClient sharedInstance] screen:@"The Cinema"  properties:@{@"prop_key" : @"prop_value",@"category":@"TENET"}];
+        // Track Call
+        [[RSClient sharedInstance] track:@"simple_track_event"];
+        [[RSClient sharedInstance] track:@"simple_track_with_props" properties:@{
+            @"key_1" : @"value_1",
+            @"key_2" : @"value_2"
+        }];
+        [[RSClient sharedInstance] track:@"Order Done" properties:@{
+            @"revenue" : @100,
+            @"orderId" : @"ooo1111111",
+            @"products" : @[
                 @{
                     @"productId" : @"12##89",
                     @"price" : @12,
@@ -77,16 +69,18 @@
                     @"price" : @21,
                     @"quantity" : @3
                 }
-        ]
-    }];
-    //Group Call
-    // same problem as in android
-    [[RSClient sharedInstance] group:@"group_id"
-                              traits:@{@"company_id": @"RS",
-                                       @"company_name": @"RudderStack"}
-     ];
-    //    //Reset Call
-    [[RSClient sharedInstance] reset];
+            ]
+        }];
+        //Group Call
+        // same problem as in android
+        [[RSClient sharedInstance] group:@"group_id"
+                                  traits:@{@"company_id": @"RS",
+                                           @"company_name": @"RudderStack"}
+        ];
+        
+        //    //Reset Call
+        //    [[RSClient sharedInstance] reset];
+    }
     return YES;
 }
 

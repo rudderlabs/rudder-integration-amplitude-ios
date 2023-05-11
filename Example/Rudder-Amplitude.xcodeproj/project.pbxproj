@@ -21,9 +21,11 @@
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
-		7C07C8C3DE67DC6EEE39B966 /* Pods_Rudder_Amplitude_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA57A50738F8433B4DABA479 /* Pods_Rudder_Amplitude_Tests.framework */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		AD5B06CBE037475A98407BA5 /* Pods_Rudder_Amplitude_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79113C57A01477A62779F72F /* Pods_Rudder_Amplitude_Example.framework */; };
+		ED726B5F2A08D78E0037A6F4 /* RudderConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED726B5C2A08D78E0037A6F4 /* RudderConfig.plist */; };
+		ED726B602A08D78E0037A6F4 /* SampleRudderConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED726B5D2A08D78E0037A6F4 /* SampleRudderConfig.plist */; };
+		ED726B612A08D78E0037A6F4 /* RudderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED726B5E2A08D78E0037A6F4 /* RudderConfig.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,11 +64,16 @@
 		79113C57A01477A62779F72F /* Pods_Rudder_Amplitude_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rudder_Amplitude_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A26D9DB94A93FD3835349954 /* Pods-Rudder-Amplitude_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rudder-Amplitude_Example.release.xcconfig"; path = "Target Support Files/Pods-Rudder-Amplitude_Example/Pods-Rudder-Amplitude_Example.release.xcconfig"; sourceTree = "<group>"; };
-		B6447766280A8BCD69ED3792 /* Pods-Rudder-Amplitude_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rudder-Amplitude_Tests.debug.xcconfig"; path = "Target Support Files/Pods-Rudder-Amplitude_Tests/Pods-Rudder-Amplitude_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		BA57A50738F8433B4DABA479 /* Pods_Rudder_Amplitude_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rudder_Amplitude_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CBAD90758EE58F36EAC5762B /* Pods-Rudder-Amplitude_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rudder-Amplitude_Tests.release.xcconfig"; path = "Target Support Files/Pods-Rudder-Amplitude_Tests/Pods-Rudder-Amplitude_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		DA75E53C72D405432BDD6CB9 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		FB03380213C55CCC23328F03 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		ED726B532A08D47A0037A6F4 /* CODEOWNERS */ = {isa = PBXFileReference; lastKnownFileType = text; name = CODEOWNERS; path = ../CODEOWNERS; sourceTree = "<group>"; };
+		ED726B542A08D47A0037A6F4 /* package.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = package.json; path = ../package.json; sourceTree = "<group>"; };
+		ED726B552A08D47A0037A6F4 /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = CONTRIBUTING.md; path = ../CONTRIBUTING.md; sourceTree = "<group>"; };
+		ED726B562A08D47A0037A6F4 /* CODE_OF_CONDUCT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = CODE_OF_CONDUCT.md; path = ../CODE_OF_CONDUCT.md; sourceTree = "<group>"; };
+		ED726B572A08D47A0037A6F4 /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = LICENSE.md; path = ../LICENSE.md; sourceTree = "<group>"; };
+		ED726B582A08D7840037A6F4 /* Rudder-Amplitude_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Rudder-Amplitude_Example-Bridging-Header.h"; sourceTree = "<group>"; };
+		ED726B5C2A08D78E0037A6F4 /* RudderConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RudderConfig.plist; sourceTree = "<group>"; };
+		ED726B5D2A08D78E0037A6F4 /* SampleRudderConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SampleRudderConfig.plist; sourceTree = "<group>"; };
+		ED726B5E2A08D78E0037A6F4 /* RudderConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RudderConfig.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,7 +95,6 @@
 				6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */,
 				6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */,
-				7C07C8C3DE67DC6EEE39B966 /* Pods_Rudder_Amplitude_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,8 +106,6 @@
 			children = (
 				37F90D74850D7A1BA71C2B1F /* Pods-Rudder-Amplitude_Example.debug.xcconfig */,
 				A26D9DB94A93FD3835349954 /* Pods-Rudder-Amplitude_Example.release.xcconfig */,
-				B6447766280A8BCD69ED3792 /* Pods-Rudder-Amplitude_Tests.debug.xcconfig */,
-				CBAD90758EE58F36EAC5762B /* Pods-Rudder-Amplitude_Tests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -110,7 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				60FF7A9C1954A5C5007DD14C /* Podspec Metadata */,
-				6003F593195388D20070C39A /* Example for Rudder-Amplitude */,
+				6003F593195388D20070C39A /* Rudder-Amplitude */,
 				6003F5B5195388D20070C39A /* Tests */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
@@ -135,14 +139,14 @@
 				6003F591195388D20070C39A /* UIKit.framework */,
 				6003F5AF195388D20070C39A /* XCTest.framework */,
 				79113C57A01477A62779F72F /* Pods_Rudder_Amplitude_Example.framework */,
-				BA57A50738F8433B4DABA479 /* Pods_Rudder_Amplitude_Tests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		6003F593195388D20070C39A /* Example for Rudder-Amplitude */ = {
+		6003F593195388D20070C39A /* Rudder-Amplitude */ = {
 			isa = PBXGroup;
 			children = (
+				ED726B5B2A08D78E0037A6F4 /* RudderConfig */,
 				6003F59C195388D20070C39A /* _AppDelegate.h */,
 				6003F59D195388D20070C39A /* _AppDelegate.m */,
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
@@ -151,8 +155,8 @@
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
+				ED726B582A08D7840037A6F4 /* Rudder-Amplitude_Example-Bridging-Header.h */,
 			);
-			name = "Example for Rudder-Amplitude";
 			path = "Rudder-Amplitude";
 			sourceTree = "<group>";
 		};
@@ -189,11 +193,25 @@
 		60FF7A9C1954A5C5007DD14C /* Podspec Metadata */ = {
 			isa = PBXGroup;
 			children = (
-				0D15844FB4573A389D3C8484 /* Rudder-Amplitude.podspec */,
+				ED726B562A08D47A0037A6F4 /* CODE_OF_CONDUCT.md */,
+				ED726B532A08D47A0037A6F4 /* CODEOWNERS */,
+				ED726B552A08D47A0037A6F4 /* CONTRIBUTING.md */,
+				ED726B572A08D47A0037A6F4 /* LICENSE.md */,
+				ED726B542A08D47A0037A6F4 /* package.json */,
 				DA75E53C72D405432BDD6CB9 /* README.md */,
-				FB03380213C55CCC23328F03 /* LICENSE */,
+				0D15844FB4573A389D3C8484 /* Rudder-Amplitude.podspec */,
 			);
 			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		ED726B5B2A08D78E0037A6F4 /* RudderConfig */ = {
+			isa = PBXGroup;
+			children = (
+				ED726B5C2A08D78E0037A6F4 /* RudderConfig.plist */,
+				ED726B5E2A08D78E0037A6F4 /* RudderConfig.swift */,
+				ED726B5D2A08D78E0037A6F4 /* SampleRudderConfig.plist */,
+			);
+			path = RudderConfig;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -222,11 +240,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6003F5C2195388D20070C39A /* Build configuration list for PBXNativeTarget "Rudder-Amplitude_Tests" */;
 			buildPhases = (
-				B4008AE25F71C1FD241BF413 /* [CP] Check Pods Manifest.lock */,
 				6003F5AA195388D20070C39A /* Sources */,
 				6003F5AB195388D20070C39A /* Frameworks */,
 				6003F5AC195388D20070C39A /* Resources */,
-				CB5C79D9108211B39905E61E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -248,6 +264,9 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = Arnab;
 				TargetAttributes = {
+					6003F589195388D20070C39A = {
+						LastSwiftMigration = 1430;
+					};
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
 					};
@@ -279,6 +298,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
+				ED726B5F2A08D78E0037A6F4 /* RudderConfig.plist in Resources */,
+				ED726B602A08D78E0037A6F4 /* SampleRudderConfig.plist in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
@@ -326,58 +347,20 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Rudder-Amplitude_Example/Pods-Rudder-Amplitude_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Amplitude/Amplitude.framework",
+				"${BUILT_PRODUCTS_DIR}/AnalyticsConnector/AnalyticsConnector.framework",
 				"${BUILT_PRODUCTS_DIR}/Rudder/Rudder.framework",
 				"${BUILT_PRODUCTS_DIR}/Rudder-Amplitude/Rudder_Amplitude.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Amplitude.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AnalyticsConnector.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rudder.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rudder_Amplitude.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Rudder-Amplitude_Example/Pods-Rudder-Amplitude_Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B4008AE25F71C1FD241BF413 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Rudder-Amplitude_Tests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		CB5C79D9108211B39905E61E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Rudder-Amplitude_Tests/Pods-Rudder-Amplitude_Tests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/FBSnapshotTestCase/FBSnapshotTestCase.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSnapshotTestCase.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Rudder-Amplitude_Tests/Pods-Rudder-Amplitude_Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -388,6 +371,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F59E195388D20070C39A /* _AppDelegate.m in Sources */,
+				ED726B612A08D78E0037A6F4 /* RudderConfig.swift in Sources */,
 				6003F5A7195388D20070C39A /* _ViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 			);
@@ -517,12 +501,15 @@
 			baseConfigurationReference = 37F90D74850D7A1BA71C2B1F /* Pods-Rudder-Amplitude_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Rudder-Amplitude/Rudder-Amplitude-Prefix.pch";
 				INFOPLIST_FILE = "Rudder-Amplitude/Rudder-Amplitude-Info.plist";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Rudder-Amplitude/Rudder-Amplitude_Example-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				WRAPPER_EXTENSION = app;
 			};
@@ -533,12 +520,14 @@
 			baseConfigurationReference = A26D9DB94A93FD3835349954 /* Pods-Rudder-Amplitude_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Rudder-Amplitude/Rudder-Amplitude-Prefix.pch";
 				INFOPLIST_FILE = "Rudder-Amplitude/Rudder-Amplitude-Info.plist";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Rudder-Amplitude/Rudder-Amplitude_Example-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				WRAPPER_EXTENSION = app;
 			};
@@ -546,8 +535,8 @@
 		};
 		6003F5C3195388D20070C39A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B6447766280A8BCD69ED3792 /* Pods-Rudder-Amplitude_Tests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
@@ -571,8 +560,8 @@
 		};
 		6003F5C4195388D20070C39A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CBAD90758EE58F36EAC5762B /* Pods-Rudder-Amplitude_Tests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
