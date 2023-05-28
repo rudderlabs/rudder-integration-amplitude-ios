@@ -4,11 +4,10 @@
 //
 //  Created by Desu Sai Venkat on 04/12/20.
 //
-#import <Amplitude/Amplitude.h>
 #import "RudderAmplitudeIntegration.h"
 #import <Rudder/Rudder.h>
 #import <malloc/malloc.h>
-#import "AMPServerZone.h"
+@import Amplitude;
 
 @implementation AmplitudeConfig
 @end
@@ -28,9 +27,11 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             self->amplitudeConfig = [self createAMPConfigurationFromDestConfig:config];
             
+            int RS_US = 0;
+            int RS_EU = 1;
             if(self->amplitudeConfig.residencyServer){
                 NSString *residencyServer = self->amplitudeConfig.residencyServer;
-                AMPServerZone serverZone = (residencyServer = @"EU") ? EU : US;
+                AMPServerZone serverZone = (residencyServer == @"EU") ? RS_EU : RS_US;
                 [[Amplitude instance] setServerZone: serverZone];
             }
             
@@ -406,7 +407,7 @@
     amplitudeConfig.trackSessionEvents      = [[destinationConfig objectForKey:@"trackSessionEvents"] boolValue];
     amplitudeConfig.eventUploadPeriodMillis = [[destinationConfig objectForKey:@"eventUploadPeriodMillis"] intValue];
     amplitudeConfig.eventUploadThreshold    = [[destinationConfig objectForKey:@"eventUploadThreshold"] intValue];
-    amplitudeConfig.residencyServer    = [[destinationConfig objectForKey:@"residencyServer"] stringValue];
+    amplitudeConfig.residencyServer    = [destinationConfig objectForKey:@"residencyServer"];
 
     return amplitudeConfig;
 }
