@@ -23,7 +23,7 @@
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		A4D4E8AECF2AD75F0E96FA11 /* Pods_Rudder_Amplitude_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F412C594E286218825FC6B34 /* Pods_Rudder_Amplitude_Example.framework */; };
-		ED726B602A08D78E0037A6F4 /* RudderConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED726B5D2A08D78E0037A6F4 /* RudderConfig.plist */; };
+		ED726B602A08D78E0037A6F4 /* SampleRudderConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED726B5D2A08D78E0037A6F4 /* SampleRudderConfig.plist */; };
 		ED726B612A08D78E0037A6F4 /* RudderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED726B5E2A08D78E0037A6F4 /* RudderConfig.swift */; };
 /* End PBXBuildFile section */
 
@@ -69,7 +69,7 @@
 		ED726B562A08D47A0037A6F4 /* CODE_OF_CONDUCT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = CODE_OF_CONDUCT.md; path = ../CODE_OF_CONDUCT.md; sourceTree = "<group>"; };
 		ED726B572A08D47A0037A6F4 /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = LICENSE.md; path = ../LICENSE.md; sourceTree = "<group>"; };
 		ED726B582A08D7840037A6F4 /* Rudder-Amplitude_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Rudder-Amplitude_Example-Bridging-Header.h"; sourceTree = "<group>"; };
-		ED726B5D2A08D78E0037A6F4 /* RudderConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RudderConfig.plist; sourceTree = "<group>"; };
+		ED726B5D2A08D78E0037A6F4 /* SampleRudderConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SampleRudderConfig.plist; sourceTree = "<group>"; };
 		ED726B5E2A08D78E0037A6F4 /* RudderConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RudderConfig.swift; sourceTree = "<group>"; };
 		F412C594E286218825FC6B34 /* Pods_Rudder_Amplitude_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rudder_Amplitude_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -206,7 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				ED726B5E2A08D78E0037A6F4 /* RudderConfig.swift */,
-				ED726B5D2A08D78E0037A6F4 /* RudderConfig.plist */,
+				ED726B5D2A08D78E0037A6F4 /* SampleRudderConfig.plist */,
 			);
 			path = RudderConfig;
 			sourceTree = "<group>";
@@ -295,7 +295,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
-				ED726B602A08D78E0037A6F4 /* RudderConfig.plist in Resources */,
+				ED726B602A08D78E0037A6F4 /* SampleRudderConfig.plist in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
