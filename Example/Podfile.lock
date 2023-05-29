@@ -1,17 +1,17 @@
 PODS:
-  - Amplitude (8.15.2):
+  - Amplitude (8.16.0):
     - AnalyticsConnector (~> 1.0.0)
   - AnalyticsConnector (1.0.1)
-  - Rudder (1.8.0)
-  - Rudder-Amplitude (1.0.2):
-    - Amplitude (~> 8.14)
-    - Rudder
+  - Rudder (1.15.1)
+  - Rudder-Amplitude (1.1.0):
+    - Amplitude (= 8.16.0)
+    - Rudder (~> 1.12)
 
 DEPENDENCIES:
   - Rudder-Amplitude (from `../`)
 
 SPEC REPOS:
-  trunk:
+  https://github.com/CocoaPods/Specs.git:
     - Amplitude
     - AnalyticsConnector
     - Rudder
@@ -21,11 +21,11 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Amplitude: c4f497ba1eb34e06cdaa727c56ebca5b8e894be8
+  Amplitude: 4daad8eb8193b15353221dfd96c52220367cb3e8
   AnalyticsConnector: eccd7e1cd3dd18e6bd09ac2506e37d4ed43ba3f4
-  Rudder: 0a5272646aa3b89295526cea2bf54d092044848a
-  Rudder-Amplitude: 9095353337cf42f30d42639bfc019458ed32f198
+  Rudder: 41040d4537a178e4e32477b68400f98ca0c354eb
+  Rudder-Amplitude: 6d02a047ceb273101233047550f4ef755da5656e
 
-PODFILE CHECKSUM: f2e8ac08fa00822eeb22df7da0eb6a9c53b737c7
+PODFILE CHECKSUM: db4a5b0e30fcd5b3fa1cd3b11c1a1075e05d0fa2
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.11.3

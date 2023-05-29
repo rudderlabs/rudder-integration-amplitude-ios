@@ -24,62 +24,17 @@
         if (rudderConfig != nil) {
             RSConfigBuilder *configBuilder = [[RSConfigBuilder alloc] init];
             [configBuilder withDataPlaneUrl:rudderConfig.PROD_DATA_PLANE_URL];
-            [configBuilder withControlPlaneUrl:@"control_plane_url"];
-            [configBuilder withLoglevel:RSLogLevelDebug];
+            [configBuilder withLoglevel:RSLogLevelVerbose];
             [configBuilder withFactory:[RudderAmplitudeFactory instance]];
             [RSClient getInstance:rudderConfig.WRITE_KEY config:[configBuilder build]];
         }
-        
-        // identify call
-        NSMutableArray *awardsArray = [NSMutableArray array];
-        [awardsArray addObject:[NSNumber numberWithInt:5]];
-        [awardsArray addObject:[NSNumber numberWithInt:6]];
-        NSMutableArray *rewardsArray = [NSMutableArray array];
-        [rewardsArray addObject:[NSNumber numberWithInt:7]];
-        [rewardsArray addObject:[NSNumber numberWithInt:8]];
-        
-        [[RSClient sharedInstance] identify:@"JamesBond"
-                                     traits:@{@"firstName": @"James",
-                                              @"LastName": @"Bond",
-                                              @"email": @"Bond@james.com",
-                                              @"friends":[NSNumber numberWithInt:10],
-                                              @"city":@"CA",
-                                              @"awards":[NSNumber numberWithInt:1],
-                                              @"rewards":@"11"
-                                            }];
-        // screen call
-        [[RSClient sharedInstance] screen:@"The Cinema"  properties:@{@"prop_key" : @"prop_value",@"category":@"TENET"}];
-        // Track Call
-        [[RSClient sharedInstance] track:@"simple_track_event"];
-        [[RSClient sharedInstance] track:@"simple_track_with_props" properties:@{
-            @"key_1" : @"value_1",
-            @"key_2" : @"value_2"
-        }];
-        [[RSClient sharedInstance] track:@"Order Done" properties:@{
-            @"revenue" : @100,
-            @"orderId" : @"ooo1111111",
-            @"products" : @[
-                @{
-                    @"productId" : @"12##89",
-                    @"price" : @12,
-                    @"quantity" : @1
-                },
-                @{
-                    @"productId" : @"8900",
-                    @"price" : @21,
-                    @"quantity" : @3
-                }
-            ]
-        }];
+
         //Group Call
         // same problem as in android
-        [[RSClient sharedInstance] group:@"group_id"
-                                  traits:@{@"company_id": @"RS",
-                                           @"company_name": @"RudderStack"}
-        ];
-        
-        //    //Reset Call
-        //    [[RSClient sharedInstance] reset];
+//        [[RSClient sharedInstance] group:@"group_id"
+//                                  traits:@{@"company_id": @"RS",
+//                                           @"company_name": @"RudderStack"}
+//        ];
     }
     return YES;
 }

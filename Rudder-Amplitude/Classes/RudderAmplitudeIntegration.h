@@ -7,9 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Rudder/Rudder.h>
-#import <Amplitude/AMPPlan.h>
-#import <Amplitude/AMPIngestionMetadata.h>
-#import <Amplitude/AMPTrackingOptions.h>
+@import Amplitude;
 
 NS_ASSUME_NONNULL_BEGIN
 
