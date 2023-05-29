@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.1.1 (2023-05-29)
+
+
+### Bug Fixes
+
+* config processing and enum issue in amplitude ([8674edc](https://github.com/rudderlabs/rudder-integration-amplitude-ios/commit/8674edce1643d1e532c962d11d7087e9b5de2200))
+* rudder sdk version lock ([#15](https://github.com/rudderlabs/rudder-integration-amplitude-ios/issues/15)) ([af38fdc](https://github.com/rudderlabs/rudder-integration-amplitude-ios/commit/af38fdc8513e4c12c2088f61eede56c67784bf76))
+
 ## [1.1.0](https://github.com/rudderlabs/rudder-integration-amplitude-ios/compare/v1.0.2...v1.1.0) (2023-05-08)
 
 
