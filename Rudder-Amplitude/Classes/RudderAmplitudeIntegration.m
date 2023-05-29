@@ -31,7 +31,7 @@
             int RS_EU = 1;
             if(self->amplitudeConfig.residencyServer){
                 NSString *residencyServer = self->amplitudeConfig.residencyServer;
-                AMPServerZone serverZone = ([residencyServer  isEqual: @"EU"]) ? RS_EU : RS_US;
+                AMPServerZone serverZone = ([residencyServer  isEqualToString: @"EU"]) ? RS_EU : RS_US;
                 [[Amplitude instance] setServerZone: serverZone];
             }
             
