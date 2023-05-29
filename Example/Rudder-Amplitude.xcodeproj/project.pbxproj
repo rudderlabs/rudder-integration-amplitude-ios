@@ -22,7 +22,7 @@
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
-		A4D4E8AECF2AD75F0E96FA11 /* Pods_Rudder_Amplitude_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F412C594E286218825FC6B34 /* Pods_Rudder_Amplitude_Example.framework */; };
+		D41691106020B8CA10802CC8 /* Pods_Rudder_Amplitude_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0E2E13FB1427B831515225B /* Pods_Rudder_Amplitude_Example.framework */; };
 		ED726B602A08D78E0037A6F4 /* SampleRudderConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED726B5D2A08D78E0037A6F4 /* SampleRudderConfig.plist */; };
 		ED726B612A08D78E0037A6F4 /* RudderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED726B5E2A08D78E0037A6F4 /* RudderConfig.swift */; };
 /* End PBXBuildFile section */
@@ -62,6 +62,7 @@
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8A11378DE26A214936B0F7F5 /* Pods-Rudder-Amplitude_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rudder-Amplitude_Example.release.xcconfig"; path = "Target Support Files/Pods-Rudder-Amplitude_Example/Pods-Rudder-Amplitude_Example.release.xcconfig"; sourceTree = "<group>"; };
+		C0E2E13FB1427B831515225B /* Pods_Rudder_Amplitude_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rudder_Amplitude_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA75E53C72D405432BDD6CB9 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		ED726B532A08D47A0037A6F4 /* CODEOWNERS */ = {isa = PBXFileReference; lastKnownFileType = text; name = CODEOWNERS; path = ../CODEOWNERS; sourceTree = "<group>"; };
 		ED726B542A08D47A0037A6F4 /* package.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = package.json; path = ../package.json; sourceTree = "<group>"; };
@@ -71,7 +72,6 @@
 		ED726B582A08D7840037A6F4 /* Rudder-Amplitude_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Rudder-Amplitude_Example-Bridging-Header.h"; sourceTree = "<group>"; };
 		ED726B5D2A08D78E0037A6F4 /* SampleRudderConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SampleRudderConfig.plist; sourceTree = "<group>"; };
 		ED726B5E2A08D78E0037A6F4 /* RudderConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RudderConfig.swift; sourceTree = "<group>"; };
-		F412C594E286218825FC6B34 /* Pods_Rudder_Amplitude_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rudder_Amplitude_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +82,7 @@
 				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
-				A4D4E8AECF2AD75F0E96FA11 /* Pods_Rudder_Amplitude_Example.framework in Frameworks */,
+				D41691106020B8CA10802CC8 /* Pods_Rudder_Amplitude_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,7 +136,7 @@
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
 				6003F5AF195388D20070C39A /* XCTest.framework */,
-				F412C594E286218825FC6B34 /* Pods_Rudder_Amplitude_Example.framework */,
+				C0E2E13FB1427B831515225B /* Pods_Rudder_Amplitude_Example.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -222,7 +222,7 @@
 				6003F586195388D20070C39A /* Sources */,
 				6003F587195388D20070C39A /* Frameworks */,
 				6003F588195388D20070C39A /* Resources */,
-				7734ACB1BF3F4E577340B4AD /* [CP] Embed Pods Frameworks */,
+				C5A4E2CD294EFA9377F49685 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -313,7 +313,29 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7734ACB1BF3F4E577340B4AD /* [CP] Embed Pods Frameworks */ = {
+		B0ADBE5DAB6AAAB0D5EDFFE3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Rudder-Amplitude_Example-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C5A4E2CD294EFA9377F49685 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -335,28 +357,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Rudder-Amplitude_Example/Pods-Rudder-Amplitude_Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B0ADBE5DAB6AAAB0D5EDFFE3 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Rudder-Amplitude_Example-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

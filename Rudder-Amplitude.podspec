@@ -2,7 +2,7 @@ require 'json'
 
 package = JSON.parse(File.read(File.join(__dir__, 'package.json')))
 
-amplitude_sdk_version = '~> 8.14'
+amplitude_sdk_version = '8.16.0' #We've fixed the version, as we are directly using the corresponding US and EU ENUMS integer value.
 rudder_sdk_version = '~> 1.12'
 deployment_target = '12.0'
 amplitude_app_events = 'Amplitude'

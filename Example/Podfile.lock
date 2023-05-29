@@ -4,7 +4,7 @@ PODS:
   - AnalyticsConnector (1.0.1)
   - Rudder (1.15.1)
   - Rudder-Amplitude (1.1.0):
-    - Amplitude (~> 8.14)
+    - Amplitude (= 8.16.0)
     - Rudder (~> 1.12)
 
 DEPENDENCIES:
@@ -24,7 +24,7 @@ SPEC CHECKSUMS:
   Amplitude: 4daad8eb8193b15353221dfd96c52220367cb3e8
   AnalyticsConnector: eccd7e1cd3dd18e6bd09ac2506e37d4ed43ba3f4
   Rudder: 41040d4537a178e4e32477b68400f98ca0c354eb
-  Rudder-Amplitude: dce0a51a21c235d7c18a18a79009f30370a4885a
+  Rudder-Amplitude: 6d02a047ceb273101233047550f4ef755da5656e
 
 PODFILE CHECKSUM: db4a5b0e30fcd5b3fa1cd3b11c1a1075e05d0fa2
 
