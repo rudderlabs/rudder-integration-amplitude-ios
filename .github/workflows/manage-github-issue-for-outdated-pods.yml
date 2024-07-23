@@ -19,7 +19,7 @@ jobs:
           outdated-pod-names: "Amplitude"
           directory: "Example"
           title: "fix: update Amplitude SDK to the latest version"
-          assignee: "desusai7"
+          assignee: "@rudderlabs/sdk-ios"
           labels: "outdatedPod"
           color: "FBCA04"
         env:
