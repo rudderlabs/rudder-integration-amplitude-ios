@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.2.0 (2024-07-23)
+
+
+### Features
+
+* upgrade amplitude sdk version to v8.19.2 ([#22](https://github.com/rudderlabs/rudder-integration-amplitude-ios/issues/22)) ([6738c5c](https://github.com/rudderlabs/rudder-integration-amplitude-ios/commit/6738c5c969602daaae43947f22692cce8b4ef8ac))
+
 ### 1.1.1 (2023-05-29)
 
 
