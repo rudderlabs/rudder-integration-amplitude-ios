@@ -1,11 +1,17 @@
 PODS:
-  - Amplitude (8.16.0):
+  - Amplitude (8.19.2):
     - AnalyticsConnector (~> 1.0.0)
-  - AnalyticsConnector (1.0.1)
-  - Rudder (1.15.1)
-  - Rudder-Amplitude (1.1.0):
-    - Amplitude (= 8.16.0)
+  - AnalyticsConnector (1.0.3)
+  - MetricsReporter (1.2.1):
+    - RSCrashReporter (= 1.0.1)
+    - RudderKit (= 1.4.0)
+  - RSCrashReporter (1.0.1)
+  - Rudder (1.27.0):
+    - MetricsReporter (= 1.2.1)
+  - Rudder-Amplitude (1.1.1):
+    - Amplitude (= 8.19.2)
     - Rudder (~> 1.12)
+  - RudderKit (1.4.0)
 
 DEPENDENCIES:
   - Rudder-Amplitude (from `../`)
@@ -14,18 +20,24 @@ SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - Amplitude
     - AnalyticsConnector
+    - MetricsReporter
+    - RSCrashReporter
     - Rudder
+    - RudderKit
 
 EXTERNAL SOURCES:
   Rudder-Amplitude:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Amplitude: 4daad8eb8193b15353221dfd96c52220367cb3e8
-  AnalyticsConnector: eccd7e1cd3dd18e6bd09ac2506e37d4ed43ba3f4
-  Rudder: 41040d4537a178e4e32477b68400f98ca0c354eb
-  Rudder-Amplitude: 6d02a047ceb273101233047550f4ef755da5656e
+  Amplitude: 1c9fca37993bd5742cf7c121d432bf8bf5a28ccb
+  AnalyticsConnector: a53214d38ae22734c6266106c0492b37832633a9
+  MetricsReporter: 99596ee5003c69949ed2f50acc34aee83c42f843
+  RSCrashReporter: 6b8376ac729b0289ebe0908553e5f56d8171f313
+  Rudder: 3cfcd9e6c5359cd6d49f411101ed9b894e3b64bd
+  Rudder-Amplitude: ea804b5342e2fb2fa47c0c7c84eae82a4143601d
+  RudderKit: f272f9872183946452ac94cd7bb2244a71e6ca8f
 
 PODFILE CHECKSUM: db4a5b0e30fcd5b3fa1cd3b11c1a1075e05d0fa2
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.15.2
