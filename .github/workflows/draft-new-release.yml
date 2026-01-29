@@ -44,7 +44,7 @@ jobs:
           git config user.email noreply@github.com
 
       # Calculate the next release version based on conventional semantic release
-      - name: Create release branch
+      - name: Calculate release version
         id: create-release
         env:
           HUSKY: 0
@@ -52,9 +52,14 @@ jobs:
           source_branch_name=${GITHUB_REF##*/}
           release_type=release
           git fetch origin master --depth=1
+          # Store feature branch SHA before merge
+          feature_sha=$(git rev-parse HEAD)
+          echo "feature_sha=$feature_sha" >> $GITHUB_OUTPUT
+
+          # Merge master to calculate version correctly
           git merge origin/master
           current_version=$(jq -r .version package.json)
-          
+
           npx standard-version --skip.commit --skip.tag --skip.changelog
           new_version=$(jq -r .version package.json)
           git reset --hard
@@ -66,40 +71,69 @@ jobs:
           echo "Release type is $release_type"
           echo "New version is $new_version"
           echo "New release branch name is $branch_name"
-          git checkout -b "$branch_name"
-          git push --set-upstream origin "$branch_name"
-          
+
           echo "source_branch_name=$source_branch_name" >> $GITHUB_OUTPUT
           echo "branch_name=$branch_name" >> $GITHUB_OUTPUT
           echo "new_version=$new_version" >> $GITHUB_OUTPUT
           echo "CURRENT_VERSION_VALUE=$current_version" >> $GITHUB_ENV
           echo "NEW_VERSION_VALUE=$new_version" >> $GITHUB_ENV
 
-      - name: Update changelog & bump version
+      - name: Create release branch via API
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: |
+          branch_name="${{ steps.create-release.outputs.branch_name }}"
+          master_sha=$(git rev-parse origin/master)
+          gh api --method POST "repos/${{ github.repository }}/git/refs" \
+            -f ref="refs/heads/$branch_name" \
+            -f sha="$master_sha"
+
+      - name: Prepare release files
         id: finish-release
         env:
           HUSKY: 0
         run: |
           npm i -g conventional-changelog-cli
           SUMMARY=$(((npx conventional-changelog -u) 2>&1) | sed "s/*/<br> */g" | sed "s/#/ /g" | tr -d '\n' || true)
-          echo $SUMMARY
+          echo "$SUMMARY"
           echo "Current version: $CURRENT_VERSION_VALUE"
           echo "New version: $NEW_VERSION_VALUE"
-          npx replace $CURRENT_VERSION_VALUE $NEW_VERSION_VALUE README.md
-          echo ${{ steps.create-release.outputs.new_version }}
+          npx replace "$CURRENT_VERSION_VALUE" "$NEW_VERSION_VALUE" README.md
+          echo "${{ steps.create-release.outputs.new_version }}"
           echo "commit_summary=$SUMMARY" >> $GITHUB_OUTPUT
           npx standard-version -a --skip.commit --skip.tag
+
+      - name: Get list of all changed files
+        id: changed-files
+        run: |
+          # Get all files that differ from master (feature changes + release files)
+          # We're still on the merged state, so diff against master shows all changes
+          git diff --name-only origin/master > /tmp/feature_files.txt
+          # Add release files that may have been modified
+          echo "CHANGELOG.md" >> /tmp/feature_files.txt
+          echo "README.md" >> /tmp/feature_files.txt
+          echo "package.json" >> /tmp/feature_files.txt
+          echo "package-lock.json" >> /tmp/feature_files.txt
+          # Sort and deduplicate
+          sort -u /tmp/feature_files.txt > /tmp/all_files.txt
+          # Filter to only existing files
+          while IFS= read -r file; do
+            if [ -f "$file" ]; then
+              echo "$file"
+            fi
+          done < /tmp/all_files.txt > /tmp/final_files.txt
+          # Output for signed-commit action
+          echo "files<<EOF" >> $GITHUB_OUTPUT
+          cat /tmp/final_files.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Create verified release commit and tag
         uses: ryancyq/github-signed-commit@e9f3b28c80da7be66d24b8f501a5abe82a6b855f # v1.2.0
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         with:
-          files: |
-            CHANGELOG.md
-            README.md
-            package.json
-            package-lock.json
+          branch-name: ${{ steps.create-release.outputs.branch_name }}
+          files: ${{ steps.changed-files.outputs.files }}
           commit-message: 'chore(release): ${{ steps.create-release.outputs.new_version }}'
           tag: 'v${{ steps.create-release.outputs.new_version }}'
 
