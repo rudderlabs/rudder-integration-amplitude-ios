@@ -3,15 +3,12 @@ name: Draft new release
 on:
   workflow_dispatch
 
-permissions:
-  contents: read
-
 jobs:
   draft-new-release:
-    permissions:
-      contents: write  # for Git to git push
     name: Draft a new release
     runs-on: ubuntu-latest
+    permissions:
+      contents: read # GITHUB_TOKEN only needs read, App Token handles all writes
     if: startsWith(github.ref, 'refs/heads/fix/') || startsWith(github.ref, 'refs/heads/feat/')
     steps:
       - name: Harden the runner (Audit all outbound calls)
