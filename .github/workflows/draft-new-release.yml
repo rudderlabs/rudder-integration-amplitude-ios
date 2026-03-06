@@ -3,15 +3,12 @@ name: Draft new release
 on:
   workflow_dispatch
 
-permissions:
-  contents: read
-
 jobs:
   draft-new-release:
-    permissions:
-      contents: write  # for Git to git push
     name: Draft a new release
     runs-on: ubuntu-latest
+    permissions:
+      contents: read # GITHUB_TOKEN only needs read, App Token handles all writes
     if: startsWith(github.ref, 'refs/heads/fix/') || startsWith(github.ref, 'refs/heads/feat/')
     steps:
       - name: Harden the runner (Audit all outbound calls)
@@ -19,25 +16,28 @@ jobs:
         with:
           egress-policy: audit
 
+      - name: Generate GitHub App Token
+        id: generate-token
+        uses: actions/create-github-app-token@67018539274d69449ef7c02e8e71183d1719ab42 # v2.1.4
+        with:
+          app-id: ${{ vars.RELEASE_APP_ID }}
+          private-key: ${{ secrets.RELEASE_PRIVATE_KEY }}
+          permission-contents: write # to create commits, tags, and releases
+          permission-pull-requests: write # to create release PRs
+
       - name: Checkout source branch
         uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
         with:
           fetch-depth: 0
+          token: ${{ steps.generate-token.outputs.token }}
 
       - name: Set Node 16
         uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3.9.1
         with:
           node-version: 16
-          
-      # In order to make a commit, we need to initialize a user.
-      # You may choose to write something less generic here if you want, it doesn't matter functionality wise.
-      - name: Initialize mandatory git config
-        run: |
-          git config user.name "GitHub actions"
-          git config user.email noreply@github.com
 
       # Calculate the next release version based on conventional semantic release
-      - name: Create release branch
+      - name: Calculate release version
         id: create-release
         env:
           HUSKY: 0
@@ -45,9 +45,14 @@ jobs:
           source_branch_name=${GITHUB_REF##*/}
           release_type=release
           git fetch origin master --depth=1
+          # Store feature branch SHA before merge
+          feature_sha=$(git rev-parse HEAD)
+          echo "feature_sha=$feature_sha" >> $GITHUB_OUTPUT
+
+          # Merge master to calculate version correctly
           git merge origin/master
           current_version=$(jq -r .version package.json)
-          
+
           npx standard-version --skip.commit --skip.tag --skip.changelog
           new_version=$(jq -r .version package.json)
           git reset --hard
@@ -59,41 +64,77 @@ jobs:
           echo "Release type is $release_type"
           echo "New version is $new_version"
           echo "New release branch name is $branch_name"
-          git checkout -b "$branch_name"
-          git push --set-upstream origin "$branch_name"
-          
+
           echo "source_branch_name=$source_branch_name" >> $GITHUB_OUTPUT
           echo "branch_name=$branch_name" >> $GITHUB_OUTPUT
           echo "new_version=$new_version" >> $GITHUB_OUTPUT
           echo "CURRENT_VERSION_VALUE=$current_version" >> $GITHUB_ENV
           echo "NEW_VERSION_VALUE=$new_version" >> $GITHUB_ENV
 
-      - name: Update changelog & bump version
+      - name: Create release branch via API
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: |
+          branch_name="${{ steps.create-release.outputs.branch_name }}"
+          master_sha=$(git rev-parse origin/master)
+          gh api --method POST "repos/${{ github.repository }}/git/refs" \
+            -f ref="refs/heads/$branch_name" \
+            -f sha="$master_sha"
+
+      - name: Prepare release files
         id: finish-release
         env:
           HUSKY: 0
         run: |
           npm i -g conventional-changelog-cli
-          SUMMARY=$(((npx conventional-changelog -u) 2>&1) | sed "s/*/<br> */g" | sed "s/#/ /g" | tr -d '\n' || true)
-          echo $SUMMARY
           echo "Current version: $CURRENT_VERSION_VALUE"
           echo "New version: $NEW_VERSION_VALUE"
-          npx replace $CURRENT_VERSION_VALUE $NEW_VERSION_VALUE README.md
-          git add README.md
-          echo ${{ steps.create-release.outputs.new_version }}
+          npx replace "$CURRENT_VERSION_VALUE" "$NEW_VERSION_VALUE" README.md
+          echo "${{ steps.create-release.outputs.new_version }}"
+          npx standard-version -a --skip.commit --skip.tag
+          SUMMARY=$(((npx conventional-changelog -u) 2>&1) | sed "s/*/<br> */g" | sed "s/#/ /g" | tr -d '\n' || true)
+          echo "$SUMMARY"
           echo "commit_summary=$SUMMARY" >> $GITHUB_OUTPUT
-          npx standard-version -a
 
-      - name: Push new version in release branch & tag
+      - name: Get list of all changed files
+        id: changed-files
         run: |
-          git push --follow-tags
+          # Get all files that differ from master (feature changes + release files)
+          # We're still on the merged state, so diff against master shows all changes
+          git diff --name-only origin/master > /tmp/feature_files.txt
+          # Add release files that may have been modified
+          echo "CHANGELOG.md" >> /tmp/feature_files.txt
+          echo "README.md" >> /tmp/feature_files.txt
+          echo "package.json" >> /tmp/feature_files.txt
+          echo "package-lock.json" >> /tmp/feature_files.txt
+          # Sort and deduplicate
+          sort -u /tmp/feature_files.txt > /tmp/all_files.txt
+          # Filter to only existing files
+          while IFS= read -r file; do
+            if [ -f "$file" ]; then
+              echo "$file"
+            fi
+          done < /tmp/all_files.txt > /tmp/final_files.txt
+          # Output for signed-commit action
+          echo "files<<EOF" >> $GITHUB_OUTPUT
+          cat /tmp/final_files.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create verified release commit and tag
+        uses: ryancyq/github-signed-commit@e9f3b28c80da7be66d24b8f501a5abe82a6b855f # v1.2.0
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        with:
+          branch-name: ${{ steps.create-release.outputs.branch_name }}
+          files: ${{ steps.changed-files.outputs.files }}
+          commit-message: 'chore(release): ${{ steps.create-release.outputs.new_version }}'
+          tag: 'v${{ steps.create-release.outputs.new_version }}'
 
       - name: Create pull request into master
         uses: repo-sync/pull-request@7e79a9f5dc3ad0ce53138f01df2fad14a04831c5 # v2.12.1
         with:
           source_branch: ${{ steps.create-release.outputs.branch_name }}
           destination_branch: 'master'
-          github_token: ${{ secrets.PAT }}
+          github_token: ${{ steps.generate-token.outputs.token }}
           pr_title: "chore(release): pulling ${{ steps.create-release.outputs.branch_name }} into master"
           pr_body: ":crown: *An automated PR*\n\n${{ steps.finish-release.outputs.commit_summary }}"
-          pr_reviewer: '@rudderlabs/sdk-ios'
