@@ -47,7 +47,7 @@ jobs:
         run: |
           source_branch_name=${GITHUB_REF##*/}
           release_type=release
-          git fetch origin master --depth=1
+          git fetch origin master
           # Store feature branch SHA before merge
           feature_sha=$(git rev-parse HEAD)
           echo "feature_sha=$feature_sha" >> $GITHUB_OUTPUT
