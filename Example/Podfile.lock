@@ -8,7 +8,7 @@ PODS:
   - RSCrashReporter (1.0.1)
   - Rudder (1.27.0):
     - MetricsReporter (= 1.2.1)
-  - Rudder-Amplitude (1.1.1):
+  - Rudder-Amplitude (1.2.0):
     - Amplitude (= 8.19.2)
     - Rudder (~> 1.12)
   - RudderKit (1.4.0)
@@ -35,9 +35,9 @@ SPEC CHECKSUMS:
   MetricsReporter: 99596ee5003c69949ed2f50acc34aee83c42f843
   RSCrashReporter: 6b8376ac729b0289ebe0908553e5f56d8171f313
   Rudder: 3cfcd9e6c5359cd6d49f411101ed9b894e3b64bd
-  Rudder-Amplitude: ea804b5342e2fb2fa47c0c7c84eae82a4143601d
+  Rudder-Amplitude: dc9614c32f6ed805b593d597e05579102b2e6046
   RudderKit: f272f9872183946452ac94cd7bb2244a71e6ca8f
 
-PODFILE CHECKSUM: db4a5b0e30fcd5b3fa1cd3b11c1a1075e05d0fa2
+PODFILE CHECKSUM: 1e4ad49627ea804187a7f0ad84fbf38fee6d71d0
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.17.0
