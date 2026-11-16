@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Amplitude",
+        "repositoryURL": "https://github.com/amplitude/Amplitude-iOS",
+        "state": {
+          "branch": null,
+          "revision": "bfdec453a31fd35942a619ef472fcf2f09e2313a",
+          "version": "8.19.2"
+        }
+      },
+      {
+        "package": "analytics-connector-ios",
+        "repositoryURL": "https://github.com/amplitude/analytics-connector-ios.git",
+        "state": {
+          "branch": null,
+          "revision": "6d1a5b9666192861342b70ea0b2274180a5e1d4f",
+          "version": "1.3.3"
+        }
+      },
+      {
+        "package": "Rudder",
+        "repositoryURL": "https://github.com/rudderlabs/rudder-sdk-ios",
+        "state": {
+          "branch": null,
+          "revision": "7f7b657caaf608dce606bc0027bab707d026e1fb",
+          "version": "1.33.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
