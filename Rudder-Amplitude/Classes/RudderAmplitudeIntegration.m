@@ -5,7 +5,11 @@
 //  Created by Desu Sai Venkat on 04/12/20.
 //
 #import "RudderAmplitudeIntegration.h"
+#if defined(__has_include) && __has_include(<Rudder/Rudder.h>)
 #import <Rudder/Rudder.h>
+#else
+#import "Rudder.h"
+#endif
 #import <malloc/malloc.h>
 @import Amplitude;
 
