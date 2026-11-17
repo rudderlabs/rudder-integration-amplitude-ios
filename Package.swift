@@ -14,7 +14,7 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(name: "Amplitude", url: "https://github.com/amplitude/Amplitude-iOS", .exact("8.19.2")),
+        .package(name: "Amplitude", url: "https://github.com/amplitude/Amplitude-iOS", from: "8.19.2"),
         .package(name: "Rudder", url: "https://github.com/rudderlabs/rudder-sdk-ios", "1.12.0"..<"2.0.0"),
     ],
     targets: [
