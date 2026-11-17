@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/rudderlabs/rudder-integration-amplitude-ios/compare/v1.2.0...v1.3.0) (2026-11-17)
+
+
+### Features
+
+* raise minimum iOS deployment target to 15.0 ([d68fa51](https://github.com/rudderlabs/rudder-integration-amplitude-ios/commit/d68fa5188c2dc84f198c07649b3aaa4d886aadba))
+* raise minimum iOS deployment target to 15.0 ([#50](https://github.com/rudderlabs/rudder-integration-amplitude-ios/issues/50)) ([16321c8](https://github.com/rudderlabs/rudder-integration-amplitude-ios/commit/16321c89e7373e429d098eebe9b5b74629a10e00))
+* sdk-6835 add swift package manager support ([81e0aaf](https://github.com/rudderlabs/rudder-integration-amplitude-ios/commit/81e0aaf2043fba92477bd529fed114c862d97bc5))
+
+
+### Bug Fixes
+
+* add permission-members read for team reviewer assignment ([f793ced](https://github.com/rudderlabs/rudder-integration-amplitude-ios/commit/f793cedd4c0a73279b82d0265dca2e1da1384d12))
+* **ci:** add permission inputs to GitHub App token steps [SEC-58] ([3de4446](https://github.com/rudderlabs/rudder-integration-amplitude-ios/commit/3de4446ca3dcd6268dfb8fdafd1f74d82b68dc59))
+* **ci:** replace git push with signed-commit for verified commits [SEC-58] ([830a075](https://github.com/rudderlabs/rudder-integration-amplitude-ios/commit/830a07591580bbd83fd5f48f03d36cb73fed0f8f))
+* **ci:** use GITHUB_TOKEN for notion-pr-sync (simpler, sufficient for read-only) ([5e7a761](https://github.com/rudderlabs/rudder-integration-amplitude-ios/commit/5e7a7618b0885e095ac66de6e7aa37ac0aafb3cd))
+* remove non-existent files, fix changelog order, and remove pr_reviewer ([18c681a](https://github.com/rudderlabs/rudder-integration-amplitude-ios/commit/18c681a245bd9543907cdc3d8a45df4fcafc33d1))
+* sdk-5209 correct ios release workflows ([#47](https://github.com/rudderlabs/rudder-integration-amplitude-ios/issues/47)) ([cde7b93](https://github.com/rudderlabs/rudder-integration-amplitude-ios/commit/cde7b93da80aab167737be74992e81c83ea34e6c))
+* **vuln:** pin and bump action refs (SEC-171) ([f4dc64a](https://github.com/rudderlabs/rudder-integration-amplitude-ios/commit/f4dc64a32a98d429a11856dbe8c5998549d77b07))
+* **vuln:** remediate GHA script injection ([6c78581](https://github.com/rudderlabs/rudder-integration-amplitude-ios/commit/6c785811324fae982371e1ab543b78be794bf4a1))
+
 ## 1.2.0 (2024-07-23)
 
 
