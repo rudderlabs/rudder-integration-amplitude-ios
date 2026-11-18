@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/rudderlabs/rudder-integration-amplitude-ios/compare/v1.3.0...v1.3.1) (2026-11-18)
+
+
+### Bug Fixes
+
+* correct amplitudesdkversion override interpolation in podspec ([b7c877d](https://github.com/rudderlabs/rudder-integration-amplitude-ios/commit/b7c877d683892cbf6ddbc5ffce9b52b333971399))
+* sdk-6835 align amplitude sdk range in podspec with package.swift ([f35f807](https://github.com/rudderlabs/rudder-integration-amplitude-ios/commit/f35f807a5c9a9f0b2ab810b95d597f41f203c532))
+
 ## [1.3.0](https://github.com/rudderlabs/rudder-integration-amplitude-ios/compare/v1.2.0...v1.3.0) (2026-11-17)
 
 
