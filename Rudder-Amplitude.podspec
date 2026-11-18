@@ -2,7 +2,7 @@ require 'json'
 
 package = JSON.parse(File.read(File.join(__dir__, 'package.json')))
 
-amplitude_sdk_version = '8.19.2' #We've fixed the version, as we are directly using the corresponding US and EU ENUMS integer value.
+amplitude_sdk_version = ['>= 8.19.2', '< 9.0'] # Same range as Package.swift. Server zones are passed as raw ints (US=0, EU=1), unchanged across 8.x.
 rudder_sdk_version = '~> 1.12'
 deployment_target = '15.0'
 amplitude_app_events = 'Amplitude'
@@ -42,5 +42,5 @@ Pod::Spec.new do |s|
   end
   
   s.dependency 'Rudder', rudder_sdk_version
-  s.dependency amplitude_app_events, amplitude_sdk_version
+  s.dependency amplitude_app_events, *Array(amplitude_sdk_version)
 end
