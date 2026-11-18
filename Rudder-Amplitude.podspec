@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
   
   if defined?($AmplitudeSDKVersion)
     amplitude_sdk_version = $AmplitudeSDKVersion
-    Pod::UI.puts "#{s.name}: Using user specified Amplitude SDK version '#{AmplitudeSDKVersion}'"
+    Pod::UI.puts "#{s.name}: Using user specified Amplitude SDK version '#{$AmplitudeSDKVersion}'"
   else
     Pod::UI.puts "#{s.name}: Using default amplitude SDK version '#{amplitude_sdk_version}'"
   end
